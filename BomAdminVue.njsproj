@@ -1,0 +1,531 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>BomAdminVue</Name>
+    <RootNamespace>BomAdminVue</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>925ca007-207d-4365-9cc6-151c825959be</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>node_modules\webpack-dev-server\bin\webpack-dev-server.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>8080</NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
+    <ScriptArguments> --inline --progress --config build/webpack.dev.conf.js</ScriptArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+      npm run build
+    </PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".babelrc" />
+    <Content Include=".editorconfig" />
+    <Content Include=".eslintignore" />
+    <Content Include=".eslintrc.js" />
+    <Content Include=".gitignore" />
+    <Content Include=".postcssrc.js" />
+    <Content Include=".travis.yml" />
+    <Content Include="build\build.js" />
+    <Content Include="build\check-versions.js" />
+    <Content Include="build\logo.png" />
+    <Content Include="build\utils.js" />
+    <Content Include="build\vue-loader.conf.js" />
+    <Content Include="build\webpack.base.conf.js" />
+    <Content Include="build\webpack.dev.conf.js" />
+    <Content Include="build\webpack.prod.conf.js" />
+    <Content Include="config\dev.env.js" />
+    <Content Include="config\index.js" />
+    <Content Include="config\prod.env.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="favicon.png" />
+    <Content Include="index.html" />
+    <Content Include="package.json" />
+    <Content Include="postcss.config.js" />
+    <Content Include="src\api\constracinfo\constracinfo.js" />
+    <Content Include="src\api\customer\customer.js" />
+    <Content Include="src\api\dashboard\dashboard.js" />
+    <Content Include="src\api\flowprocess\flowprocess.js" />
+    <Content Include="src\api\login.js" />
+    <Content Include="src\api\mipsinfo\gateRecord.js" />
+    <Content Include="src\api\notice\notice.js" />
+    <Content Include="src\api\orderCompMage\AproductionPub.js" />
+    <Content Include="src\api\orderCompMage\OrderAudit.js" />
+    <Content Include="src\api\orderCompMage\OrderCome.js" />
+    <Content Include="src\api\orderCompMage\orderCompMage.js" />
+    <Content Include="src\api\orderCompMage\OrderDip.js" />
+    <Content Include="src\api\orderCompMage\OrderIncome.js" />
+    <Content Include="src\api\orderCompMage\OrderInform.js" />
+    <Content Include="src\api\orderCompMage\OrderMaterialQc.js" />
+    <Content Include="src\api\orderCompMage\OrderPlan.js" />
+    <Content Include="src\api\orderCompMage\OrderProcurement.js" />
+    <Content Include="src\api\orderCompMage\OrderQuality.js" />
+    <Content Include="src\api\orderCompMage\OrderRepertory.js" />
+    <Content Include="src\api\orderCompMage\OrderSmt.js" />
+    <Content Include="src\api\orderCompMage\orderStart.js" />
+    <Content Include="src\api\orderCompMage\OrderWarehouse.js" />
+    <Content Include="src\api\orders\orders.js" />
+    <Content Include="src\api\orgs\bdcorp.js" />
+    <Content Include="src\api\orgs\bddept.js" />
+    <Content Include="src\api\orgs\bdpsndoc.js" />
+    <Content Include="src\api\produce\quote.js" />
+    <Content Include="src\api\productionProccess\productionProccess.js" />
+    <Content Include="src\api\productMageMent\productMageMent.js" />
+    <Content Include="src\api\product\product.js" />
+    <Content Include="src\api\pub\pub.js" />
+    <Content Include="src\api\purchase\materieldb.js" />
+    <Content Include="src\api\purchase\quote.js" />
+    <Content Include="src\api\rbac\smbtn.js" />
+    <Content Include="src\api\rbac\smmenu.js" />
+    <Content Include="src\api\rbac\smperm.js" />
+    <Content Include="src\api\rbac\smrole.js" />
+    <Content Include="src\api\rbac\smuser.js" />
+    <Content Include="src\api\rbac\smuserrole.js" />
+    <Content Include="src\api\refdoc\psntype.js" />
+    <Content Include="src\api\refdoc\trade.js" />
+    <Content Include="src\api\safe\safe.js" />
+    <Content Include="src\api\salemage\product.js" />
+    <Content Include="src\api\salemage\salequote.js" />
+    <Content Include="src\api\technics\tecaudit.js" />
+    <Content Include="src\api\worktools\materieltool.js" />
+    <Content Include="src\App.vue" />
+    <Content Include="src\assets\404_images\404.png" />
+    <Content Include="src\assets\404_images\404_cloud.png" />
+    <Content Include="src\assets\beijing\aa.jpg" />
+    <Content Include="src\assets\beijing\repert.jpg" />
+    <Content Include="src\assets\cy\233.png" />
+    <Content Include="src\assets\cy\bj1.png" />
+    <Content Include="src\assets\cy\LOGO-1.png" />
+    <Content Include="src\assets\cy\logo2.png" />
+    <Content Include="src\assets\cy\timg1.jpg" />
+    <Content Include="src\assets\cy\timg2.jpg" />
+    <Content Include="src\assets\head\loggeduser.png" />
+    <Content Include="src\assets\styles\response.scss" />
+    <Content Include="src\assets\test\is-document.png" />
+    <Content Include="src\assets\test\is-money.png" />
+    <Content Include="src\assets\test\is-user.png" />
+    <Content Include="src\components\Breadcrumb\index.vue" />
+    <Content Include="src\components\Commitdingding\CommitDialog.vue" />
+    <Content Include="src\components\ContextMenu-master\ContextMenu\index.js" />
+    <Content Include="src\components\ContextMenu-master\ContextMenu\main.vue" />
+    <Content Include="src\components\Hamburger\index.vue" />
+    <Content Include="src\components\Pagination\index.vue" />
+    <Content Include="src\components\SvgIcon\index.vue" />
+    <Content Include="src\components\Tinymce\components\EditorImage.vue" />
+    <Content Include="src\components\Tinymce\dynamicLoadScript.js" />
+    <Content Include="src\components\Tinymce\index.vue" />
+    <Content Include="src\components\Tinymce\plugins.js" />
+    <Content Include="src\components\Tinymce\toolbar.js" />
+    <Content Include="src\components\viewcomp\BomSeting.vue" />
+    <Content Include="src\components\viewcomp\BomTable.vue" />
+    <Content Include="src\components\viewcomp\List.vue" />
+    <Content Include="src\components\viewcomp\Table.vue" />
+    <Content Include="src\components\viewcomp\Top.vue" />
+    <Content Include="src\data\cailiao.json" />
+    <Content Include="src\Excel\Blob.js" />
+    <Content Include="src\Excel\Export2Excel.js" />
+    <Content Include="src\icons\index.js" />
+    <Content Include="src\icons\svgo.yml" />
+    <Content Include="src\icons\svg\chart.svg" />
+    <Content Include="src\icons\svg\clipboard.svg" />
+    <Content Include="src\icons\svg\component.svg" />
+    <Content Include="src\icons\svg\email.svg" />
+    <Content Include="src\icons\svg\example.svg" />
+    <Content Include="src\icons\svg\eye-open.svg" />
+    <Content Include="src\icons\svg\eye.svg" />
+    <Content Include="src\icons\svg\form.svg" />
+    <Content Include="src\icons\svg\link.svg" />
+    <Content Include="src\icons\svg\message.svg" />
+    <Content Include="src\icons\svg\nested.svg" />
+    <Content Include="src\icons\svg\password.svg" />
+    <Content Include="src\icons\svg\table.svg" />
+    <Content Include="src\icons\svg\tree.svg" />
+    <Content Include="src\icons\svg\user.svg" />
+    <Content Include="src\icons\svg\wechat.svg" />
+    <Content Include="src\main.js" />
+    <Content Include="src\permission.js" />
+    <Content Include="src\router\index.js" />
+    <Content Include="src\router\_import_development.js" />
+    <Content Include="src\router\_import_production.js" />
+    <Content Include="src\store\getters.js" />
+    <Content Include="src\store\index.js" />
+    <Content Include="src\store\modules\app.js" />
+    <Content Include="src\store\modules\user.js" />
+    <Content Include="src\store\modules\viewComp.js" />
+    <Content Include="src\styles\element-ui.scss" />
+    <Content Include="src\styles\index.scss" />
+    <Content Include="src\styles\mixin.scss" />
+    <Content Include="src\styles\sidebar.scss" />
+    <Content Include="src\styles\transition.scss" />
+    <Content Include="src\styles\variables.scss" />
+    <Content Include="src\utils\auth.js" />
+    <Content Include="src\utils\flexible.js" />
+    <Content Include="src\utils\index.js" />
+    <Content Include="src\utils\rem.js" />
+    <Content Include="src\utils\rem1.js" />
+    <Content Include="src\utils\request.js" />
+    <Content Include="src\utils\scrollTo.js" />
+    <Content Include="src\utils\validate.js" />
+    <Content Include="src\utils\viewCompUtil.js" />
+    <Content Include="src\views\404.vue" />
+    <Content Include="src\views\customer\customer\content.vue" />
+    <Content Include="src\views\customer\customer\customer.vue" />
+    <Content Include="src\views\customer\customer\transfercustomer.vue" />
+    <Content Include="src\views\customer\info\custominfo.vue" />
+    <Content Include="src\views\custominfo\baseinfo\baseinfo.vue" />
+    <Content Include="src\views\custominfo\psndocinfo\content.vue" />
+    <Content Include="src\views\custominfo\psndocinfo\psndocinfo.vue" />
+    <Content Include="src\views\custominfo\signinfo\signinfo.vue" />
+    <Content Include="src\views\dashboard1\admin\index.vue" />
+    <Content Include="src\views\dashboard1\business\index.vue" />
+    <Content Include="src\views\dashboard1\cusromer\index.vue" />
+    <Content Include="src\views\dashboard1\finance\index.vue" />
+    <Content Include="src\views\dashboard1\index.vue" />
+    <Content Include="src\views\dashboard1\keepGrain\index.vue" />
+    <Content Include="src\views\dashboard1\product\index.vue" />
+    <Content Include="src\views\dashboard1\quality\index.vue" />
+    <Content Include="src\views\dashboard1\technology\index.vue" />
+    <Content Include="src\views\dashboard\components\BarChart.vue" />
+    <Content Include="src\views\dashboard\components\FastIcno.vue" />
+    <Content Include="src\views\dashboard\components\FlowDialog.vue" />
+    <Content Include="src\views\dashboard\components\loading.vue" />
+    <Content Include="src\views\dashboard\components\PanelGroup.vue" />
+    <Content Include="src\views\dashboard\components\TitleCard.vue" />
+    <Content Include="src\views\dashboard\index.vue" />
+    <Content Include="src\views\dashboard\shouyecomp.zip" />
+    <Content Include="src\views\layout\components\AppMain.vue" />
+    <Content Include="src\views\layout\components\index.js" />
+    <Content Include="src\views\layout\components\Navbar.vue" />
+    <Content Include="src\views\layout\components\Sidebar\index.vue" />
+    <Content Include="src\views\layout\components\Sidebar\Item.vue" />
+    <Content Include="src\views\layout\components\Sidebar\Link.vue" />
+    <Content Include="src\views\layout\components\Sidebar\SidebarItem.vue" />
+    <Content Include="src\views\layout\Layout.vue" />
+    <Content Include="src\views\layout\mixin\ResizeHandler.js" />
+    <Content Include="src\views\login\components\registerDialog.vue" />
+    <Content Include="src\views\login\components\wechatLogin.vue" />
+    <Content Include="src\views\login\index.vue" />
+    <Content Include="src\views\login\singleLogin.vue" />
+    <Content Include="src\views\mipsinfo\gateRecord\gateRecord.vue" />
+    <Content Include="src\views\notice\index.vue" />
+    <Content Include="src\views\notice\notice\content.vue" />
+    <Content Include="src\views\notice\notice\notice.vue" />
+    <Content Include="src\views\orders\orderinfo\content.vue" />
+    <Content Include="src\views\orders\orderinfo\orderinfo.vue" />
+    <Content Include="src\views\orgs\bdcorp\bdcorp.vue" />
+    <Content Include="src\views\orgs\bdcorp\content.vue" />
+    <Content Include="src\views\orgs\bddept\bddept.vue" />
+    <Content Include="src\views\orgs\bddept\content.vue" />
+    <Content Include="src\views\orgs\bdpsndoc\bdpsndoc.vue" />
+    <Content Include="src\views\orgs\bdpsndoc\content.vue" />
+    <Content Include="src\views\produce\quote1\content.vue" />
+    <Content Include="src\views\produce\quote1\quote.vue" />
+    <Content Include="src\views\produce\quote\content.vue" />
+    <Content Include="src\views\produce\quote\quote.vue" />
+    <Content Include="src\views\productionflow\comp\OrderConstractProductSel.vue" />
+    <Content Include="src\views\productionflow\comp\OrderConstractProductSelVersion1.vue" />
+    <Content Include="src\views\productionflow\comp\OrderProductInfoDetails.vue" />
+    <Content Include="src\views\productionflow\comp\productionFlowSteps.vue" />
+    <Content Include="src\views\productionflow\OrderAudit\fileDetails.vue" />
+    <Content Include="src\views\productionflow\OrderAudit\OrderAudit.vue" />
+    <Content Include="src\views\productionflow\OrderCome\OrderCome.vue" />
+    <Content Include="src\views\productionflow\OrderCome\subinfo\subinfo.vue" />
+    <Content Include="src\views\productionflow\OrderDip\OrderDip.vue" />
+    <Content Include="src\views\productionflow\OrderDip\subinfo\subinfo.vue" />
+    <Content Include="src\views\productionflow\OrderIncome\OrderIncome.vue" />
+    <Content Include="src\views\productionflow\OrderIncome\subinfo\subinfo.vue" />
+    <Content Include="src\views\productionflow\OrderInform\content.vue" />
+    <Content Include="src\views\productionflow\OrderInform\OrderInform.vue" />
+    <Content Include="src\views\productionflow\OrderMaterialQc\content.vue" />
+    <Content Include="src\views\productionflow\OrderMaterialQc\OrderMaterialQc.vue" />
+    <Content Include="src\views\productionflow\OrderPlan\content.vue" />
+    <Content Include="src\views\productionflow\OrderPlan\OrderPlan.vue" />
+    <Content Include="src\views\productionflow\OrderPlan\subinfo\orderSubInfo.vue" />
+    <Content Include="src\views\productionflow\OrderProcurement\content.vue" />
+    <Content Include="src\views\productionflow\OrderProcurement\filedetails.vue" />
+    <Content Include="src\views\productionflow\OrderProcurement\OrderProcurement.vue" />
+    <Content Include="src\views\productionflow\OrderQuality\content.vue" />
+    <Content Include="src\views\productionflow\OrderQuality\OrderQuality.vue" />
+    <Content Include="src\views\productionflow\OrderQuality\subinfo\subinfo.vue" />
+    <Content Include="src\views\productionflow\OrderRepertory\OrderRepertory.vue" />
+    <Content Include="src\views\productionflow\OrderRepertory\subinfo\subinfo.vue" />
+    <Content Include="src\views\productionflow\OrderSell\content.vue" />
+    <Content Include="src\views\productionflow\OrderSell\OrderSell.vue" />
+    <Content Include="src\views\productionflow\OrderSmt\OrderSmt.vue" />
+    <Content Include="src\views\productionflow\OrderSmt\subinfo\subinfo.vue" />
+    <Content Include="src\views\productionflow\OrderWarehouse\content.vue" />
+    <Content Include="src\views\productionflow\OrderWarehouse\OrderWarehouse.vue" />
+    <Content Include="src\views\productionflow\test\test.vue" />
+    <Content Include="src\views\product\compinfo\components\OrderInfo.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderAudit.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderCome.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderDip.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderIncome.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderInform.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderMaterialQc.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderPlan.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderProcurement.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderQuality.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderRepertory.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderSell.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderSmt.vue" />
+    <Content Include="src\views\product\compinfo\components\orderPlan\OrderWarehouse.vue" />
+    <Content Include="src\views\product\compinfo\components\ProductInfoCard.vue" />
+    <Content Include="src\views\product\compinfo\content.vue" />
+    <Content Include="src\views\product\compinfo\productCompinfo.vue" />
+    <Content Include="src\views\product\productinfo\content.vue" />
+    <Content Include="src\views\product\productinfo\productinfo.vue" />
+    <Content Include="src\views\product\productinfo\queryDialog.vue" />
+    <Content Include="src\views\purchase\materieldb\content.vue" />
+    <Content Include="src\views\purchase\materieldb\importExcel.vue" />
+    <Content Include="src\views\purchase\materieldb\materieldb.vue" />
+    <Content Include="src\views\purchase\quote1\content.vue" />
+    <Content Include="src\views\purchase\quote1\queryDialog.vue" />
+    <Content Include="src\views\purchase\quote1\quote.vue" />
+    <Content Include="src\views\purchase\quote\content.vue" />
+    <Content Include="src\views\purchase\quote\filedetails.vue" />
+    <Content Include="src\views\purchase\quote\queryDialog.vue" />
+    <Content Include="src\views\purchase\quote\quote.vue" />
+    <Content Include="src\views\rbac\smbtn\content.vue" />
+    <Content Include="src\views\rbac\smbtn\smbtn.vue" />
+    <Content Include="src\views\rbac\smmenu\content.vue" />
+    <Content Include="src\views\rbac\smmenu\smmenu.vue" />
+    <Content Include="src\views\rbac\smrole\bindPower.vue" />
+    <Content Include="src\views\rbac\smrole\content.vue" />
+    <Content Include="src\views\rbac\smrole\smrole.vue" />
+    <Content Include="src\views\rbac\smuser\bindRole.vue" />
+    <Content Include="src\views\rbac\smuser\content.vue" />
+    <Content Include="src\views\rbac\smuser\smuser.vue" />
+    <Content Include="src\views\refdoc\psntype\content.vue" />
+    <Content Include="src\views\refdoc\psntype\psntype.vue" />
+    <Content Include="src\views\refdoc\trade\content.vue" />
+    <Content Include="src\views\refdoc\trade\trade.vue" />
+    <Content Include="src\views\safe\safe\safeupdate.vue" />
+    <Content Include="src\views\salemage\constracinfo\constracinfo.vue" />
+    <Content Include="src\views\salemage\constracinfo\productionInfo.vue" />
+    <Content Include="src\views\salemage\orders\confirmPrice.vue" />
+    <Content Include="src\views\salemage\orders\content.vue" />
+    <Content Include="src\views\salemage\orders\historyQuote.vue" />
+    <Content Include="src\views\salemage\orders\orderinfo.vue" />
+    <Content Include="src\views\salemage\product1\content.vue" />
+    <Content Include="src\views\salemage\product1\product.vue" />
+    <Content Include="src\views\salemage\product1\queryDialog.vue" />
+    <Content Include="src\views\salemage\product\content.vue" />
+    <Content Include="src\views\salemage\product\product.vue" />
+    <Content Include="src\views\salemage\product\queryDialog.vue" />
+    <Content Include="src\views\salemage\quote\content.vue" />
+    <Content Include="src\views\salemage\quote\quote.vue" />
+    <Content Include="src\views\technics\materialAnalysis\materialAnalysis.vue" />
+    <Content Include="src\views\technics\tecaudit\content.vue" />
+    <Content Include="src\views\technics\tecaudit\tecaudit.vue" />
+    <Content Include="src\views\technics\technologyfile\filedetails.vue" />
+    <Content Include="src\views\technics\technologyfile\technologyfile.vue" />
+    <Content Include="src\views\worktools\materieltool\matchMaterielDialog.vue" />
+    <Content Include="src\views\worktools\materieltool\materielTool.vue" />
+    <Content Include="src\views\worktools\materieltool\uploadImage.vue" />
+    <Content Include="static\.gitkeep" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="build\" />
+    <Folder Include="config\" />
+    <Folder Include="src\" />
+    <Folder Include="src\api\" />
+    <Folder Include="src\api\constracinfo\" />
+    <Folder Include="src\api\customer\" />
+    <Folder Include="src\api\dashboard\" />
+    <Folder Include="src\api\flowprocess\" />
+    <Folder Include="src\api\mipsinfo\" />
+    <Folder Include="src\api\notice\" />
+    <Folder Include="src\api\orderCompMage\" />
+    <Folder Include="src\api\orderCompMage\a%27a\" />
+    <Folder Include="src\api\orders\" />
+    <Folder Include="src\api\orgs\" />
+    <Folder Include="src\api\produce\" />
+    <Folder Include="src\api\productionProccess\" />
+    <Folder Include="src\api\productMageMent\" />
+    <Folder Include="src\api\product\" />
+    <Folder Include="src\api\pub\" />
+    <Folder Include="src\api\purchase\" />
+    <Folder Include="src\api\rbac\" />
+    <Folder Include="src\api\refdoc\" />
+    <Folder Include="src\api\safe\" />
+    <Folder Include="src\api\salemage\" />
+    <Folder Include="src\api\technics\" />
+    <Folder Include="src\api\worktools\" />
+    <Folder Include="src\assets\" />
+    <Folder Include="src\assets\404_images\" />
+    <Folder Include="src\assets\beijing\" />
+    <Folder Include="src\assets\cy\" />
+    <Folder Include="src\assets\head\" />
+    <Folder Include="src\assets\styles\" />
+    <Folder Include="src\assets\test\" />
+    <Folder Include="src\components\" />
+    <Folder Include="src\components\Breadcrumb\" />
+    <Folder Include="src\components\Commitdingding\" />
+    <Folder Include="src\components\ContextMenu-master\" />
+    <Folder Include="src\components\ContextMenu-master\ContextMenu\" />
+    <Folder Include="src\components\Hamburger\" />
+    <Folder Include="src\components\Pagination\" />
+    <Folder Include="src\components\SvgIcon\" />
+    <Folder Include="src\components\Tinymce\" />
+    <Folder Include="src\components\Tinymce\components\" />
+    <Folder Include="src\components\viewcomp\" />
+    <Folder Include="src\data\" />
+    <Folder Include="src\Excel\" />
+    <Folder Include="src\icons\" />
+    <Folder Include="src\icons\svg\" />
+    <Folder Include="src\router\" />
+    <Folder Include="src\store\" />
+    <Folder Include="src\store\modules\" />
+    <Folder Include="src\styles\" />
+    <Folder Include="src\utils\" />
+    <Folder Include="src\views\" />
+    <Folder Include="src\views\customer\" />
+    <Folder Include="src\views\customer\customer\" />
+    <Folder Include="src\views\customer\info\" />
+    <Folder Include="src\views\custominfo\" />
+    <Folder Include="src\views\custominfo\baseinfo\" />
+    <Folder Include="src\views\custominfo\psndocinfo\" />
+    <Folder Include="src\views\custominfo\signinfo\" />
+    <Folder Include="src\views\dashboard1\" />
+    <Folder Include="src\views\dashboard1\admin\" />
+    <Folder Include="src\views\dashboard1\business\" />
+    <Folder Include="src\views\dashboard1\cusromer\" />
+    <Folder Include="src\views\dashboard1\finance\" />
+    <Folder Include="src\views\dashboard1\keepGrain\" />
+    <Folder Include="src\views\dashboard1\product\" />
+    <Folder Include="src\views\dashboard1\quality\" />
+    <Folder Include="src\views\dashboard1\technology\" />
+    <Folder Include="src\views\dashboard\" />
+    <Folder Include="src\views\dashboard\components\" />
+    <Folder Include="src\views\layout\" />
+    <Folder Include="src\views\layout\components\" />
+    <Folder Include="src\views\layout\components\Sidebar\" />
+    <Folder Include="src\views\layout\mixin\" />
+    <Folder Include="src\views\login\" />
+    <Folder Include="src\views\login\components\" />
+    <Folder Include="src\views\mipsinfo\" />
+    <Folder Include="src\views\mipsinfo\gateRecord\" />
+    <Folder Include="src\views\notice\" />
+    <Folder Include="src\views\notice\notice\" />
+    <Folder Include="src\views\orders\" />
+    <Folder Include="src\views\orders\orderinfo\" />
+    <Folder Include="src\views\orgs\" />
+    <Folder Include="src\views\orgs\bdcorp\" />
+    <Folder Include="src\views\orgs\bddept\" />
+    <Folder Include="src\views\orgs\bdpsndoc\" />
+    <Folder Include="src\views\produce\" />
+    <Folder Include="src\views\produce\quote1\" />
+    <Folder Include="src\views\produce\quote\" />
+    <Folder Include="src\views\productionflow\" />
+    <Folder Include="src\views\productionflow\comp\" />
+    <Folder Include="src\views\productionflow\OrderAudit\" />
+    <Folder Include="src\views\productionflow\OrderCome\" />
+    <Folder Include="src\views\productionflow\OrderCome\subinfo\" />
+    <Folder Include="src\views\productionflow\OrderDip\" />
+    <Folder Include="src\views\productionflow\OrderDip\subinfo\" />
+    <Folder Include="src\views\productionflow\OrderIncome\" />
+    <Folder Include="src\views\productionflow\OrderIncome\subinfo\" />
+    <Folder Include="src\views\productionflow\OrderInform\" />
+    <Folder Include="src\views\productionflow\OrderMaterialQc\" />
+    <Folder Include="src\views\productionflow\OrderPlan\" />
+    <Folder Include="src\views\productionflow\OrderPlan\subinfo\" />
+    <Folder Include="src\views\productionflow\OrderProcurement\" />
+    <Folder Include="src\views\productionflow\OrderQuality\" />
+    <Folder Include="src\views\productionflow\OrderQuality\subinfo\" />
+    <Folder Include="src\views\productionflow\OrderRepertory\" />
+    <Folder Include="src\views\productionflow\OrderRepertory\subinfo\" />
+    <Folder Include="src\views\productionflow\OrderSell\" />
+    <Folder Include="src\views\productionflow\OrderSmt\" />
+    <Folder Include="src\views\productionflow\OrderSmt\subinfo\" />
+    <Folder Include="src\views\productionflow\OrderWarehouse\" />
+    <Folder Include="src\views\productionflow\test\" />
+    <Folder Include="src\views\product\" />
+    <Folder Include="src\views\product\compinfo\" />
+    <Folder Include="src\views\product\compinfo\components\" />
+    <Folder Include="src\views\product\compinfo\components\orderPlan\" />
+    <Folder Include="src\views\product\productinfo\" />
+    <Folder Include="src\views\purchase\" />
+    <Folder Include="src\views\purchase\materieldb\" />
+    <Folder Include="src\views\purchase\quote1\" />
+    <Folder Include="src\views\purchase\quote\" />
+    <Folder Include="src\views\rbac\" />
+    <Folder Include="src\views\rbac\smbtn\" />
+    <Folder Include="src\views\rbac\smmenu\" />
+    <Folder Include="src\views\rbac\smrole\" />
+    <Folder Include="src\views\rbac\smuser\" />
+    <Folder Include="src\views\refdoc\" />
+    <Folder Include="src\views\refdoc\psntype\" />
+    <Folder Include="src\views\refdoc\trade\" />
+    <Folder Include="src\views\safe\" />
+    <Folder Include="src\views\safe\safe\" />
+    <Folder Include="src\views\salemage\" />
+    <Folder Include="src\views\salemage\constracinfo\" />
+    <Folder Include="src\views\salemage\orders\" />
+    <Folder Include="src\views\salemage\product1\" />
+    <Folder Include="src\views\salemage\product\" />
+    <Folder Include="src\views\salemage\quote\" />
+    <Folder Include="src\views\technics\" />
+    <Folder Include="src\views\technics\materialAnalysis\" />
+    <Folder Include="src\views\technics\tecaudit\" />
+    <Folder Include="src\views\technics\technologyfile\" />
+    <Folder Include="src\views\worktools\" />
+    <Folder Include="src\views\worktools\materieltool\" />
+    <Folder Include="static\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "BomAdminVue", "BomAdminVue.njsproj", "{925CA007-207D-4365-9CC6-151C825959BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{925CA007-207D-4365-9CC6-151C825959BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{925CA007-207D-4365-9CC6-151C825959BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{925CA007-207D-4365-9CC6-151C825959BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{925CA007-207D-4365-9CC6-151C825959BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4DCADC7F-3047-4DAF-A4AD-6B6CE026EF89}
+	EndGlobalSection
+EndGlobal

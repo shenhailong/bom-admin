@@ -1,0 +1,22 @@
+//sidebar
+$menuText:#bfcbd9;   //控制左侧栏字体颜色
+$menuActiveText:#409EFF;    //点击左侧栏字体颜色
+$subMenuActiveText:#f4f4f5;      
+$menuBg:#304156;     //控制左侧栏全部颜色
+$menuHover:#263445;  //控制左侧栏字体hover样式
+$subMenuBg:#1f2d3d;  //控制左侧栏打开里面的样式
+$subMenuHover:#001528; //控制左侧栏打开里面hover样式
+$sideBarWidth: 160px;
+
+
+
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+}
