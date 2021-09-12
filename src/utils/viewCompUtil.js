@@ -1,20 +1,20 @@
 /**
  * 将查询后的列表数据集合根据替换规则替换为正确的字符
- * @param {查询结果集} result 
- * @param {替换规则} replace 
+ * @param {查询结果集} result
+ * @param {替换规则} replace
  */
 export function initReplaceListData(result, replace) {
   // 数据格式化
   if (result) {
     if (replace) {
-      for (let index in replace) {
-        let r = replace[index]
-        let prop = r.name
-        let doReplace = r.replace
-        for (let j in result) {
-          let valueForResult = result[j][prop]
-          for (let key in doReplace) {
-            let value = doReplace[key]
+      for (const index in replace) {
+        const r = replace[index]
+        const prop = r.name
+        const doReplace = r.replace
+        for (const j in result) {
+          const valueForResult = result[j][prop]
+          for (const key in doReplace) {
+            const value = doReplace[key]
             if (valueForResult == key) {
               result[j][prop] = value
             }
@@ -28,17 +28,17 @@ export function initReplaceListData(result, replace) {
 
 /**
  * 更新数据时根据替换规则将数据替换为原本的结构
- * @param {更新数据} temp 
- * @param {替换规则} replace 
+ * @param {更新数据} temp
+ * @param {替换规则} replace
  */
 export function initReplaceUpdateData(temp, replace, userid) {
   if (replace && temp) {
-    for (let index in replace) {
-      let repName = replace[index].name
-      let repCont = replace[index].replace
-      let tempVal = temp[repName]
-      for (let key in repCont) {
-        let repVal = repCont[key]
+    for (const index in replace) {
+      const repName = replace[index].name
+      const repCont = replace[index].replace
+      const tempVal = temp[repName]
+      for (const key in repCont) {
+        const repVal = repCont[key]
         if (repVal === tempVal) {
           temp[repName] = key
         }
@@ -54,17 +54,17 @@ export function initReplaceUpdateData(temp, replace, userid) {
 
 /**
  * 处理后台逻辑后将数据添加到页面中
- * @param {新增数据} temp 
- * @param {替换规则} replace 
+ * @param {新增数据} temp
+ * @param {替换规则} replace
  */
 export function initReplaceAddData(temp, replace, username) {
   if (replace && temp) {
-    for (let index in replace) {
-      let repName = replace[index].name
-      let repCont = replace[index].replace
-      let tempVal = temp[repName]
-      for (let key in repCont) {
-        let repVal = repCont[key]
+    for (const index in replace) {
+      const repName = replace[index].name
+      const repCont = replace[index].replace
+      const tempVal = temp[repName]
+      for (const key in repCont) {
+        const repVal = repCont[key]
         if (tempVal === key) {
           temp[repName] = repVal
         }
@@ -79,14 +79,14 @@ export function initReplaceAddData(temp, replace, username) {
 
 /**
  * 将数据库中多选空间存储的值转换为控件需要的值
- * @param { 多选空间存储值 } manySelected 
+ * @param { 多选空间存储值 } manySelected
  */
 export function initElSelectManyShowData(manySelected) {
-  let selectedArr = []
-  if (manySelected && typeof(manySelected) === 'string') {
-    let valSplit = manySelected.split(',')
+  const selectedArr = []
+  if (manySelected && typeof (manySelected) === 'string') {
+    const valSplit = manySelected.split(',')
     if (valSplit) {
-      for (let index in valSplit) {
+      for (const index in valSplit) {
         selectedArr.push(Number.parseInt(valSplit[index]))
       }
       return selectedArr
@@ -97,13 +97,13 @@ export function initElSelectManyShowData(manySelected) {
 
 /**
  * 将多选择器控件的值转换为后台中存储的数据格式
- * @param { 控件中带出来的值 } manySelected 
+ * @param { 控件中带出来的值 } manySelected
  */
 export function initElSelectManySaveData(manySelected) {
   let saveVal = ''
   if (manySelected) {
-    for (let index in manySelected) {
-      let valOne = manySelected[index]
+    for (const index in manySelected) {
+      const valOne = manySelected[index]
       if (valOne) {
         saveVal = saveVal + valOne + ','
       }
@@ -115,8 +115,8 @@ export function initElSelectManySaveData(manySelected) {
 
 /**
  * 格式化日期为字符串
- * @param {日期参数} time 
- * @param {格式参数} cFormat 
+ * @param {日期参数} time
+ * @param {格式参数} cFormat
  */
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
@@ -153,25 +153,25 @@ export function parseTime(time, cFormat) {
 
 /**
  * 生成随机数
- * @param {盐值} number 
+ * @param {盐值} number
  */
 export function randomNum(number) {
-  let today = new Date();
-  let seed = today.getTime();
+  const today = new Date()
+  const seed = today.getTime()
   return rand(number, seed)
 }
-function rand(number, seed){
-  return Math.ceil(rnd(seed) * number);
+function rand(number, seed) {
+  return Math.ceil(rnd(seed) * number)
 }
-function rnd(seed){
-  seed = ( seed * 9301 + 49297 ) % 233280;
-  return seed / ( 233280.0 );
+function rnd(seed) {
+  seed = (seed * 9301 + 49297) % 233280
+  return seed / (233280.0)
 }
 
 // 转换参照的key类型为int类型
 export function parseRefKeyInt(refOption) {
   if (refOption) {
-    for (let index in refOption) {
+    for (const index in refOption) {
       if (refOption[index]) {
         refOption[index].value = Number.parseInt(refOption[index].value)
       }
@@ -182,21 +182,21 @@ export function parseRefKeyInt(refOption) {
 
 // 根据屏幕分辩率计算比例PX尺寸
 function dpr() {
-  return window.devicePixelRatio || 1;
+  return window.devicePixelRatio || 1
 }
 
 function thinLineWidth() {
-  return dpr() - 0.5;
+  return dpr() - 0.5
 }
 
 export function npx(px) {
-  return parseInt(px * dpr(), 10);
+  return parseInt(px * dpr(), 10)
 }
 
 // 比率计算
 export function npxMate(mate) {
-  console.log(( mate / 100 ) * dwt())
-  return parseInt(( mate / 100 ) * dwt());
+  console.log((mate / 100) * dwt())
+  return parseInt((mate / 100) * dwt())
 }
 
 // document width
@@ -205,6 +205,42 @@ function dwt() {
 }
 
 function npxLine(px) {
-  const n = npx(px);
-  return n > 0 ? n - 0.5 : 0;
+  const n = npx(px)
+  return n > 0 ? n - 0.5 : 0
+}
+
+/*
+* 获得时间差,时间格式为 年-月-日 小时:分钟:秒 或者 年/月/日 小时：分钟：秒
+* 其中，年月日为全格式，例如 ： 2010-10-12 01:00:00
+* 返回精度为：秒，分，小时，天
+*/
+
+export function getDateDiff(startTime, endTime, diffType) {
+  // 将xxxx-xx-xx的时间格式，转换为 xxxx/xx/xx的格式
+  startTime = startTime.replace(/-/g, '/')
+  endTime = endTime.replace(/-/g, '/')
+
+  // 将计算间隔类性字符转换为小写
+  diffType = diffType.toLowerCase()
+  var sTime = new Date(startTime) // 开始时间
+  var eTime = new Date(endTime) // 结束时间
+  // 作为除数的数字
+  var divNum = 1
+  switch (diffType) {
+    case 'second':
+      divNum = 1000
+      break
+    case 'minute':
+      divNum = 1000 * 60
+      break
+    case 'hour':
+      divNum = 1000 * 3600
+      break
+    case 'day':
+      divNum = 1000 * 3600 * 24
+      break
+    default:
+      break
+  }
+  return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(divNum))
 }

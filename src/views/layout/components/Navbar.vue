@@ -9,29 +9,29 @@
     <big :ishow="shows" @close="closeds" />
     <drawer
       :drawer="drawer"
-      @closer="drawers"
       :listdata="listdata"
       :quto="null"
+      @closer="drawers"
     />
     <!-- <el-badge class="item" :value="200" :max="99">消息</el-badge> -->
     <!-- <div>111</div> -->
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <i class="el-icon-s-custom"></i>
+        <i class="el-icon-s-custom"/>
         <i class="el-icon-caret-bottom" />
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
         <router-link class="inlineBlock" to="/">
           <el-dropdown-item>
-            <i class="el-icon-s-home"></i>首页
+            <i class="el-icon-s-home"/>首页
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item>
-          <i class="el-icon-s-custom"></i> {{ name }}
+          <i class="el-icon-s-custom"/> {{ name }}
         </el-dropdown-item>
         <div @click="imgs">
           <el-dropdown-item>
-            <i class="el-icon-picture"></i> 流程图
+            <i class="el-icon-picture"/> 流程图
           </el-dropdown-item>
         </div>
 
@@ -42,7 +42,7 @@
         </router-link> -->
         <el-dropdown-item divided>
           <span style="display: block" @click="logout">
-            <i class="el-icon-switch-button"></i>登出</span
+          <i class="el-icon-switch-button"/>登出</span
           >
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -61,12 +61,12 @@
             width: 15px;
             height: 15px;
           "
-        ></i>
+        />
         公告: <span style="color: red"> {{ notice.title }} </span>
       </div>
     </div>
     <!-- 内容组件 -->
-    <con :ishow="isshow" :con="cons" @close="closes"> </con>
+    <con :ishow="isshow" :con="cons" @close="closes"/>
     <div
       class="avatar-container"
       style="
@@ -75,41 +75,41 @@
         line-height: 16px;
         padding-top: 5px;
       "
-      @click="drawers"
+      @click="goMessage"
     >
-    <el-badge :value="nmbbadge" :max="99" class="item">
-      <div style="margin-right: 10px;">
-        <p>公共</p>
-        <p>消息</p>
-      </div>
-      
-    </el-badge>
-     
+      <el-badge :value="nmbbadge" :max="99" class="item">
+        <div style="margin-right: 10px;">
+          <p>公共1</p>
+          <p>消息</p>
+        </div>
+
+      </el-badge>
+
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Breadcrumb from "@/components/Breadcrumb";
-import Hamburger from "@/components/Hamburger";
-import drawer from "@/components/newtab/item/drawer";
-import { selectAllMsgUserOrderB } from "@/api/dashboard/dashboard";
-import big from "@/components/newtab/big/big";
+import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import drawer from '@/components/newtab/item/drawer'
+import { selectAllMsgUserOrderB } from '@/api/dashboard/dashboard'
+import big from '@/components/newtab/big/big'
 // import tc from "./Sidebar/tc";
 import {
   saveMsgSystemContentData,
   selectAllMsgSystemContentAsPage,
-  deleteSystemContentData,
-} from "@/api/notice/notice";
-import con from "@/views/notice/comp/content";
+  deleteSystemContentData
+} from '@/api/notice/notice'
+import con from '@/views/notice/comp/content'
 export default {
   components: {
     Breadcrumb,
     Hamburger,
     con,
     drawer,
-    big,
+    big
   },
   data() {
     return {
@@ -124,130 +124,133 @@ export default {
         content: null,
         pkSystemContent: null,
         creatorShow: null,
-        creationtime: null,
+        creationtime: null
       },
-      nmbbadge:0,
+      nmbbadge: 0,
       notice: { title: null },
       isshow: false,
       cons: null,
-      drawer: false,
-    };
+      drawer: false
+    }
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "name", "userid"]),
+    ...mapGetters(['sidebar', 'avatar', 'name', 'userid'])
   },
 
   created() {
-    this.drawers();
-    this.drawer = false;
-    this.lodinglist();
-    let con = {
+    // this.drawers()
+    this.drawer = false
+    this.lodinglist()
+    const con = {
       dr: 0,
       limit: 1,
-      page: 1,
-    };
+      page: 1
+    }
     selectAllMsgSystemContentAsPage(con).then((res) => {
       // console.log(res);
       if (res.total != 0) {
-        this.notice = res.object[0];
+        this.notice = res.object[0]
       }
-    });
+    })
   },
   methods: {
+    goMessage() {
+      this.$router.push('/MENU13775/MENU48591')
+    },
     imgs() {
-      this.shows = true;
-      console.log(this.shows);
+      this.shows = true
+      console.log(this.shows)
     },
     closeds() {
-      this.shows = false;
+      this.shows = false
     },
     conclk(index) {
-      this.isshow = true;
-      this.cons = this.notice.content;
+      this.isshow = true
+      this.cons = this.notice.content
     },
     closes() {
-      this.isshow = false;
+      this.isshow = false
     },
     toggleSideBar() {
-      this.$store.dispatch("ToggleSideBar");
+      this.$store.dispatch('ToggleSideBar')
     },
     drawers() {
-      //列表的渲染
-      this.drawer = !this.drawer;
+      // 列表的渲染
+      this.drawer = !this.drawer
       selectAllMsgUserOrderB({ dr: 0 }).then((res) => {
         // console.log(res);
-        this.listdata = res.object;
-        this.nmbbadge =0 
-        for(let i of this.listdata){
+        this.listdata = res.object
+        this.nmbbadge = 0
+        for (const i of this.listdata) {
           this.nmbbadge += i.msgNumber
           // console.log(i.msgNumber);
         }
-      });
+      })
     },
     close() {
-      //推出刷新页面
-      this.ishow = false;
+      // 推出刷新页面
+      this.ishow = false
       this.istab = {
         title: null,
         content: null,
         pkSystemContent: null,
         creatorShow: null,
-        creationtime: null,
-      };
+        creationtime: null
+      }
     },
     deletes() {
-      //删除该条消息
-      this.$confirm("是否确定删除该消息?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      // 删除该条消息
+      this.$confirm('是否确定删除该消息?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
         this.$message({
-          type: "success",
-          message: "删除成功!",
-        });
+          type: 'success',
+          message: '删除成功!'
+        })
         // deleteSystemContentData(this.con[0].pkArr);
-      });
+      })
     },
     lodings() {
-      //点击加载更多
-      this.page++;
-      this.lodinglist();
+      // 点击加载更多
+      this.page++
+      this.lodinglist()
     },
     istabs(index) {
-      this.istab = this.lists[index];
-      console.log(this.istab);
-      this.istc();
+      this.istab = this.lists[index]
+      console.log(this.istab)
+      this.istc()
     },
     titleshow(index) {
-      //内容的渲染
-      let arr = [];
-      arr.push(this.lists[index]);
+      // 内容的渲染
+      const arr = []
+      arr.push(this.lists[index])
       // let i = arr.length-1
-      this.con = arr;
+      this.con = arr
     },
     lodinglist() {
       // 加载数据
-      let datas = {
+      const datas = {
         pkSystemContent: null,
         dr: 0,
         limit: 10,
-        page: this.page,
-      };
+        page: this.page
+      }
     },
     istc() {
-      //打开设置
-      this.ishow = true;
+      // 打开设置
+      this.ishow = true
     },
     logout() {
-      //推出登陆
-      this.$store.dispatch("LogOut").then(() => {
-        this.$router.push("/login");
-        location.reload(); // 为了重新实例化vue-router对象 避免bug 
-      });
-    },
-  },
-};
+      // 推出登陆
+      this.$store.dispatch('LogOut').then(() => {
+        this.$router.push('/login')
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
+    }
+  }
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
