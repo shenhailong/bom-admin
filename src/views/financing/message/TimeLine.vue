@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-10 23:12:15
- * @LastEditTime: 2021-09-11 12:37:13
+ * @LastEditTime: 2021-09-12 16:56:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/timeLine.vue
@@ -13,6 +13,7 @@
       :key="index"
       class="item">
       <div class="icon"/>
+      <!-- <svg-icon icon-class="part" /> -->
       <div class="text">{{ item.content }}</div>
       <div class="time">{{ item.creationtime }}</div>
     </div>

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-19 08:41:46
- * @LastEditTime: 2021-09-12 15:13:33
+ * @LastEditTime: 2021-09-12 20:55:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/custominfo.vue
@@ -15,7 +15,7 @@
             <el-row :gutter="24">
               <el-col :span="8">
                 <div class="item">
-                  <div class="btn-empty" />
+                  <div :class="{active: !form1.billStateList && !form1.billState}" class="btn" @click="searchStatus(0)">全部显示</div>
                   <el-form-item label="报价发起日期">
                     <el-date-picker
                       v-model="form1.ts"
@@ -26,7 +26,7 @@
                       @change="paramsChange1"/>
                   </el-form-item>
                   <el-form-item label="合同编号">
-                    <el-input v-model="form1.contractdate" clearable placeholder="请输入合同编号" @change="paramsChange1"/>
+                    <el-input v-model="form1.contractNo" clearable placeholder="请输入合同编号" @change="paramsChange1"/>
                   </el-form-item>
                 </div>
               </el-col>
@@ -86,7 +86,7 @@
                       @change="paramsChange2"/>
                   </el-form-item>
                   <el-form-item label="合同编号">
-                    <el-input v-model="form2.contractdate" clearable placeholder="请输入合同编号" @change="paramsChange2"/>
+                    <el-input v-model="form2.contractNo" clearable placeholder="请输入合同编号" @change="paramsChange2"/>
                   </el-form-item>
                 </div>
               </el-col>
@@ -160,6 +160,7 @@
           'font-weight': 400,
         }"
         border
+        stripe
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -169,10 +170,10 @@
           label="序号"
           width="50"/>
         <el-table-column prop="serial" label="流水号" />
-        <el-table-column prop="ts" label="报价发起日期" />
-        <el-table-column prop="approvetime" label="报价签订日期" />
+        <el-table-column prop="ts" label="报价发起日期" width="150"/>
+        <el-table-column prop="approvetime" label="报价截止日期" width="150"/>
         <el-table-column prop="customerCode" label="客户编号" />
-        <el-table-column prop="productCode" label="产品编号" />
+        <el-table-column prop="productCode" label="产品编号" width="110"/>
         <el-table-column prop="productName" label="产品名称" width="100" />
         <el-table-column prop="productModel" label="产品型号" />
         <el-table-column prop="productNum" label="订单数量" />
@@ -180,7 +181,7 @@
         <el-table-column prop="pkPsndocShow" label="业务员" />
         <el-table-column prop="constractPsnname" label="订单进度" />
 
-        <el-table-column label="操作" width="260" fixed="right">
+        <el-table-column label="操作" width="230" fixed="right">
           <template slot-scope="scope">
             <el-button v-if="scope.row.concerned === '0'" type="primary" size="mini" @click="follow(scope.row, scope.$index, '1', 1)">关注</el-button>
             <el-button v-if="scope.row.concerned === '1'" type="warning" size="mini" @click="follow(scope.row, scope.$index, '0', 1)">取消关注</el-button>
@@ -211,6 +212,7 @@
           'font-weight': 400,
         }"
         border
+        stripe
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -220,10 +222,10 @@
           label="序号"
           width="50"/>
         <el-table-column prop="contractNo" label="合同编号" />
-        <el-table-column prop="productCode" label="签订日期" />
-        <el-table-column prop="productName" label="交货日期" />
+        <el-table-column prop="orderSignTime" label="签订日期" width="150"/>
+        <el-table-column prop="scheduledtime" label="交货日期" width="100"/>
         <el-table-column prop="customerCode" label="客户编号" />
-        <el-table-column prop="productionState" label="产品编号" />
+        <el-table-column prop="productCode" label="产品编号" />
         <el-table-column prop="productName" label="产品名称" width="100" />
         <el-table-column prop="productModel" label="产品型号" />
         <el-table-column prop="productNum" label="订单数量" />
@@ -256,7 +258,7 @@
     <el-drawer
       :visible.sync="drawer"
       title="沟通记录表"
-      size="60%"
+      size="70%"
       destroy-on-close
     >
       <Record :pk-product-order-b="pkProductOrderB"/>
@@ -280,8 +282,7 @@ export default {
         productCode: null, // 产品编号
         productName: null, // 产品名称
         pkPsndocShow: null, // 业务经理
-        contractdate: null, // 合同编号
-        billStateList: [0, 1, 2, 3, 4, 5],
+        contractNo: null, // 合同编号
         ts: null,
         page: 1,
         limit: 10 // 每页显示条数
@@ -291,7 +292,7 @@ export default {
         productCode: null, // 产品编号
         productName: null, // 产品名称
         pkPsndocShow: null, // 业务经理
-        contractdate: null, // 合同编号
+        contractNo: null, // 合同编号
         page: 1,
         limit: 10 // 每页显示条数
       },
@@ -387,9 +388,12 @@ export default {
         // 进行中
         this.form1.billStateList = [0, 1, 2, 3, 4, 5]
         delete this.form1.billState
-      } else {
+      } else if (status === 2) {
         // 已完成
         this.form1.billState = 6
+        delete this.form1.billStateList
+      } else {
+        delete this.form1.billState
         delete this.form1.billStateList
       }
       this.getList1()

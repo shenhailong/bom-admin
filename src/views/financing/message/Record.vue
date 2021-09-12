@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-07 11:02:22
- * @LastEditTime: 2021-09-12 15:16:15
+ * @LastEditTime: 2021-09-12 20:49:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/record.vue
@@ -23,79 +23,89 @@
     </el-card>
 
     <el-card header="订单信息" class="card">
-      <el-form ref="ruleForm" size="mini" label-width="100px" class="demo-ruleForm">
-        <el-row :gutter="24">
-          <el-col :span="6">
-            <el-form-item label="合同编号" prop="name">
-              {{ detail.contractNo }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="报价单号" prop="name">
-              {{ detail.contractNo }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="客户编号" prop="name">
-              {{ detail.customerCode }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="产品型号" prop="name">
-              {{ detail.model }}
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-row :gutter="24">
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">合同编号</div>
+            <div class="value">{{ detail.contractNo }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">报价单号</div>
+            <div class="value">{{ detail.contractNo }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">客户编号</div>
+            <div class="value">{{ detail.customerCode }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">产品型号</div>
+            <div class="value">{{ detail.model }}</div>
+          </div>
+        </el-col>
+      </el-row>
 
-        <el-row :gutter="24">
-          <el-col :span="6">
-            <el-form-item label="签订日期" prop="name">
-              {{ detail.orderSignTime }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="产品编号" prop="name">
-              {{ detail.productCode }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="订单类型" prop="name">
-              {{ detail.contractNo }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="订单业务" prop="name">
-              {{ detail.contractNo }}
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-row :gutter="24">
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">签订日期</div>
+            <div class="value">{{ detail.orderSignTime }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">产品编号</div>
+            <div class="value">{{ detail.productCode }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">订单类型</div>
+            <div class="value">{{ detail.productType }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">订单业务</div>
+            <div class="value">{{ detail.contractNo }}</div>
+          </div>
+        </el-col>
+      </el-row>
 
-        <el-row :gutter="24">
-          <el-col :span="6">
-            <el-form-item label="交货日期" prop="name">
-              {{ detail.scheduledtime }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="产品名称" prop="name">
-              {{ detail.productName }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="订单数量" prop="name">
-              {{ detail.productNum }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="超期时间" prop="name">
-              <div :class="computeData(detail.scheduledtime) > 0 ? 'red' :'green'" class="num">
-                {{ computeData(detail.scheduledtime) }}
-              </div>
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-row :gutter="24">
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">交货日期</div>
+            <div class="value">{{ detail.scheduledtime }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">产品名称</div>
+            <div class="value">{{ detail.productName }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">订单数量</div>
+            <div class="value">{{ detail.productNum }}</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="form-item">
+            <div class="label">超期时间</div>
+            <div :class="computeData(detail.scheduledtime) > 0 ? 'red' :'green'" class="num">
+              {{ computeData(detail.scheduledtime) }}
+            </div>
+          </div>
+        </el-col>
+      </el-row>
 
-      </el-form>
     </el-card>
 
     <el-card header="沟通记录" class="card">
@@ -103,8 +113,11 @@
         <div v-for="item in messageList" :key="item.pkOrderSaleStartB" class="item">
 
           <div class="header">
-            <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhimg2.huanqiu.com%2Fattachment2010%2F2014%2F0219%2F20140219024324755.jpg&refer=http%3A%2F%2Fhimg2.huanqiu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1633584860&t=756ec4da70e9cc24206c224344de7d3d" class="user">
-            <div class="title">{{ item.chargePsnShow }} {{ item.creationtime }}</div>
+            <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" class="user">
+            <div class="title">
+              <span class="name">{{ item.chargePsnShow }}</span>
+              {{ item.creationtime }}
+            </div>
           </div>
           <div class="body">
             <div class="subtitle">{{ item.content }}</div>
@@ -194,8 +207,6 @@ export default {
             })
           })
           this.progressList = arr
-          console.log(this.progressList)
-          console.log(this.messageList)
         }
       })
     },
@@ -242,9 +253,23 @@ export default {
 <style lang="scss" scoped>
 .record-wrap{
 
-  .el-timeline{
-    // display: flex;
-    justify-content: space-around;
+  .form-item{
+    display: flex;
+    margin-bottom: 20px;
+    .label{
+      color: #999999;
+      font-size: 14px;
+      margin-right: 10px;
+      width: 80px;
+    }
+    .value{
+      color: #606266;
+      font-size: 16px;
+    }
+  }
+
+  .my-lable{
+    color: #999999;
   }
 
   .green{
@@ -275,6 +300,10 @@ export default {
       .title{
         color: #333333;
         font-size: 16px;
+      }
+      .name{
+        color: #409EFF;
+        margin-right: 10px;
       }
     }
 
