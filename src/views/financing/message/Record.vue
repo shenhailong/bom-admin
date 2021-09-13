@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-07 11:02:22
- * @LastEditTime: 2021-09-12 20:49:52
+ * @LastEditTime: 2021-09-13 10:23:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/record.vue
@@ -234,16 +234,10 @@ export default {
         content: this.content,
         msgType: 1
       }
-      this.$confirm('是否确认发布?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        insertOrderSaleStartB(param).then((res) => {
-          if (res.success) {
-            this.getDetail()
-          }
-        })
+      insertOrderSaleStartB(param).then((res) => {
+        if (res.success) {
+          this.getDetail()
+        }
       })
     }
   }

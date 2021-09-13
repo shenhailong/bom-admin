@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-19 08:41:46
- * @LastEditTime: 2021-09-12 20:55:12
+ * @LastEditTime: 2021-09-13 12:50:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/custominfo.vue
@@ -174,13 +174,20 @@
         <el-table-column prop="approvetime" label="报价截止日期" width="150"/>
         <el-table-column prop="customerCode" label="客户编号" />
         <el-table-column prop="productCode" label="产品编号" width="110"/>
-        <el-table-column prop="productName" label="产品名称" width="100" />
-        <el-table-column prop="productModel" label="产品型号" />
+        <el-table-column prop="productName" label="产品名称" width="170" />
+        <el-table-column prop="model" label="产品型号" width="150"/>
         <el-table-column prop="productNum" label="订单数量" />
-        <el-table-column prop="billState" label="订单类型" />
+        <el-table-column label="订单类型">
+          <template slot-scope="scope">
+            {{ PRODUCT_TYPE_OBJ[scope.row.productType] }}
+          </template>
+        </el-table-column>
         <el-table-column prop="pkPsndocShow" label="业务员" />
-        <el-table-column prop="constractPsnname" label="订单进度" />
-
+        <el-table-column label="订单进度" width="100">
+          <template slot-scope="scope">
+            {{ BILL_STATE_OBJ[scope.row.billState] }}
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="230" fixed="right">
           <template slot-scope="scope">
             <el-button v-if="scope.row.concerned === '0'" type="primary" size="mini" @click="follow(scope.row, scope.$index, '1', 1)">关注</el-button>
@@ -226,12 +233,16 @@
         <el-table-column prop="scheduledtime" label="交货日期" width="100"/>
         <el-table-column prop="customerCode" label="客户编号" />
         <el-table-column prop="productCode" label="产品编号" />
-        <el-table-column prop="productName" label="产品名称" width="100" />
-        <el-table-column prop="productModel" label="产品型号" />
+        <el-table-column prop="productName" label="产品名称" width="170" />
+        <el-table-column prop="model" label="产品型号" width="120"/>
         <el-table-column prop="productNum" label="订单数量" />
-        <el-table-column prop="billState" label="订单类型" />
+        <el-table-column label="订单类型">
+          <template slot-scope="scope">
+            {{ PRODUCT_TYPE_OBJ[scope.row.productType] }}
+          </template>
+        </el-table-column>
         <el-table-column prop="pkPsndocShow" label="业务员" />
-        <el-table-column prop="constractPsnname" label="订单进度" />
+        <el-table-column prop="schedule" label="订单进度" width="120"/>
 
         <el-table-column label="操作" width="260" fixed="right">
           <template slot-scope="scope">
@@ -270,6 +281,7 @@
 import * as saleApi from '@/api/salemage/salequote' // 销售报价
 import { listBdPsndocAsRef } from '@/api/orgs/bdpsndoc'
 import { updateProductOrderB } from '@/api/orders/orders'
+import { BILL_STATE_OBJ, PRODUCT_TYPE_OBJ } from '@/constants/status'
 import Record from './Record.vue'
 export default {
   components: {
@@ -277,6 +289,8 @@ export default {
   },
   data() {
     return {
+      PRODUCT_TYPE_OBJ,
+      BILL_STATE_OBJ,
       form1: {
         customerCode: null, // 客户编号
         productCode: null, // 产品编号

@@ -79,7 +79,7 @@
     >
       <el-badge :value="nmbbadge" :max="99" class="item">
         <div style="margin-right: 10px;">
-          <p>公共1</p>
+          <p>公共</p>
           <p>消息</p>
         </div>
 
