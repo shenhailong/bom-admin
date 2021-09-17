@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-07 11:02:22
- * @LastEditTime: 2021-09-13 10:23:56
+ * @LastEditTime: 2021-09-17 09:27:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/record.vue
@@ -140,7 +140,7 @@
       <div class="comment_wrap">
         <el-input v-model.trim="content" placeholder="请输入内容" class="input-with-select"/>
         <el-button :disabled="content === ''" type="primary" @click="publish">发布</el-button>
-        <el-button type="primary">上传图片<i class="el-icon-upload el-icon--right"/></el-button>
+        <!-- <el-button type="primary">上传图片<i class="el-icon-upload el-icon--right"/></el-button> -->
       </div>
     </el-card>
   </div>

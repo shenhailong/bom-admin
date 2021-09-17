@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-19 08:41:46
- * @LastEditTime: 2021-09-13 12:50:17
+ * @LastEditTime: 2021-09-17 09:26:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/custominfo.vue
@@ -191,8 +191,8 @@
         <el-table-column label="操作" width="230" fixed="right">
           <template slot-scope="scope">
             <el-button v-if="scope.row.concerned === '0'" type="primary" size="mini" @click="follow(scope.row, scope.$index, '1', 1)">关注</el-button>
-            <el-button v-if="scope.row.concerned === '1'" type="warning" size="mini" @click="follow(scope.row, scope.$index, '0', 1)">取消关注</el-button>
-            <el-button type="primary" size="mini" @click="showDrawer(scope.row)">沟通记录</el-button>
+            <el-button v-if="scope.row.concerned === '1'" type="warning" size="mini" @click="follow(scope.row, scope.$index, '0', 1)">取消</el-button>
+            <el-button type="primary" size="mini" @click="showDrawer(scope.row)">留言</el-button>
           </template>
         </el-table-column>
       </el-table>

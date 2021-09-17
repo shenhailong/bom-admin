@@ -73,18 +73,13 @@
         margin-right: 70px;
         font-size: 12px;
         line-height: 16px;
-        padding-top: 5px;
+        padding-top: 10px;
       "
       @click="goMessage"
     >
-      <el-badge :value="nmbbadge" :max="99" class="item">
-        <div style="margin-right: 10px;">
-          <p>公共</p>
-          <p>消息</p>
-        </div>
-
+      <el-badge :hidden="nmbbadge === 0" :value="nmbbadge" :max="99" class="item">
+        <el-button size="mini" round>公共消息</el-button>
       </el-badge>
-
     </div>
   </div>
 </template>
