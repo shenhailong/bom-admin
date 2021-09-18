@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-07 11:02:22
- * @LastEditTime: 2021-09-18 13:21:25
+ * @LastEditTime: 2021-09-18 14:05:14
  * @LastEditors: Dragon
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/record.vue
@@ -63,7 +63,7 @@
           <el-col :span="6">
             <div class="form-item">
               <div class="label">订单类型</div>
-              <div class="value">{{ detail.productType }}</div>
+              <div class="value">{{ PRODUCT_TYPE_OBJ[detail.productType] }}</div>
             </div>
           </el-col>
           <el-col :span="6">
@@ -96,7 +96,7 @@
           <el-col :span="6">
             <div class="form-item">
               <div class="label">超期时间</div>
-              <div :class="computeData(detail) > 0 ? 'red' :'green'" class="num">
+              <div :class="computeData(detail) > 0 ? 'red' :'green'" class="num value">
                 {{ computeData(detail) }}
               </div>
             </div>
@@ -107,7 +107,7 @@
 
       <el-card header="沟通记录" class="card">
         <div class="list">
-          <div v-for="item in messageList" :key="item.pkOrderSaleStartB" class="item">
+          <div v-for="item in messageList" :key="item.pkOrderSaleStartB" :class="{'active': item.sort === 1}" class="item">
 
             <div class="header">
               <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" class="user">
@@ -137,7 +137,7 @@
         <div class="comment_wrap">
           <el-input v-model.trim="content" placeholder="请输入内容" class="input-with-select"/>
           <el-button :disabled="content === ''" type="primary" @click="publish">发布</el-button>
-          <el-button type="primary">上传图片<i class="el-icon-upload el-icon--right"/></el-button>
+          <!-- <el-button type="primary">上传图片<i class="el-icon-upload el-icon--right"/></el-button> -->
         </div>
       </el-card>
     </div>
@@ -150,6 +150,7 @@ import {
   selectAllOrderSaleStartB,
   updateOrderSaleStartB
 } from '@/api/orderCompMage/orderStart'
+import { PRODUCT_TYPE_OBJ } from '@/constants/status'
 import { getDateDiff } from '@/utils/viewCompUtil'
 import TimeLine from '@/components/timeLine'
 export default {
@@ -168,6 +169,7 @@ export default {
   },
   data() {
     return {
+      PRODUCT_TYPE_OBJ,
       drawers: false,
       detail: {}, // 详情数据
       progressList: [], // 进度信息
@@ -234,7 +236,6 @@ export default {
   },
   watch: {
     drawer() {
-      console.log(this.drawer)
       this.drawers = this.drawer
     },
     quto() {
@@ -272,8 +273,6 @@ export default {
       })
     },
     computeData(detail) {
-      console.log(detail.scheduledtime)
-      console.log(detail.putoutOutTime)
       if (detail.scheduledtime) {
         const date = new Date()
         const today = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
@@ -299,6 +298,7 @@ export default {
       }
       insertOrderSaleStartB(param).then((res) => {
         if (res.success) {
+          this.content = ''
           this.getDetail()
         }
       })
@@ -335,10 +335,10 @@ export default {
   }
 
   .green{
-    color: #67c23a,
+    color: #67c23a!important;
   }
   .red{
-    color: #f56c6c;
+    color: #f56c6c!important;
   }
   padding: 10px 20px;
   padding-bottom: 80px;
@@ -350,6 +350,11 @@ export default {
   .item{
     margin-bottom: 20px;
     border-bottom: 1px solid #F2F3F7;
+    padding: 10px;
+    border-radius: 6px;
+    &.active{
+      background: #F2F3F7;
+    }
     .header{
       display: flex;
       align-items: center;

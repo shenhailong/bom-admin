@@ -1,7 +1,7 @@
 /*
  * @Author: 状态常量
  * @Date: 2021-09-13 10:45:22
- * @LastEditTime: 2021-09-18 10:23:39
+ * @LastEditTime: 2021-09-18 14:05:45
  * @LastEditors: Dragon
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/constants/status.js
@@ -16,10 +16,10 @@ const PRODUCT_TYPE_LIST = [
     label: '加工'
   }, {
     value: 2,
-    label: 'oem'
+    label: 'OEM'
   }, {
     value: 3,
-    label: 'odm'
+    label: 'ODM'
   }, {
     value: 4,
     label: '物料'
@@ -29,8 +29,8 @@ const PRODUCT_TYPE_LIST = [
 const PRODUCT_TYPE_OBJ = {
   0: '自由态',
   1: '加工',
-  2: 'oem',
-  3: 'odm',
+  2: 'OEM',
+  3: 'ODM',
   4: '物料'
 }
 
