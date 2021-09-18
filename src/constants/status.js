@@ -1,8 +1,8 @@
 /*
  * @Author: 状态常量
  * @Date: 2021-09-13 10:45:22
- * @LastEditTime: 2021-09-13 11:00:47
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-18 10:23:39
+ * @LastEditors: Dragon
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/constants/status.js
  */
@@ -73,3 +73,34 @@ const BILL_STATE_OBJ = {
 }
 
 export { BILL_STATE_LIST, BILL_STATE_OBJ }
+
+// 工艺审核状态
+const TECHNICS_AUDI_FREE = 0 // 自由态
+const TECHNICS_AUDI_ALREADY = 20 // 已申请
+const TECHNICS_AUDI_PENDING = 21 // 工艺审核中
+const TECHNICS_AUDI_COMPLETE = 22 // 工艺审核完成
+
+const TECHNICS_AUDIT_LIST = [
+  {
+    value: TECHNICS_AUDI_FREE,
+    label: '自由态'
+  }, {
+    value: TECHNICS_AUDI_ALREADY,
+    label: '已申请'
+  }, {
+    value: TECHNICS_AUDI_PENDING,
+    label: '工艺审核中'
+  }, {
+    value: TECHNICS_AUDI_COMPLETE,
+    label: '工艺审核完成'
+  }
+]
+
+const TECHNICS_AUDIT_OBJ = {
+  [TECHNICS_AUDI_FREE]: '自由态',
+  [TECHNICS_AUDI_ALREADY]: '已申请',
+  [TECHNICS_AUDI_PENDING]: '工艺审核中',
+  [TECHNICS_AUDI_COMPLETE]: '工艺审核完成'
+}
+
+export { TECHNICS_AUDIT_LIST, TECHNICS_AUDIT_OBJ, TECHNICS_AUDI_FREE, TECHNICS_AUDI_ALREADY, TECHNICS_AUDI_PENDING, TECHNICS_AUDI_COMPLETE }

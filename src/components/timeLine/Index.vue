@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-10 23:12:15
- * @LastEditTime: 2021-09-12 16:56:33
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-18 12:57:45
+ * @LastEditors: Dragon
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/timeLine.vue
 -->
@@ -14,8 +14,8 @@
       class="item">
       <div class="icon"/>
       <!-- <svg-icon icon-class="part" /> -->
-      <div class="text">{{ item.content }}</div>
-      <div class="time">{{ item.creationtime }}</div>
+      <div :class="{'active': item.creationtime}" class="text">{{ item.shortName }}</div>
+      <div :class="{'active': item.creationtime}" class="time">{{ item.creationtime }}</div>
     </div>
   </div>
 </template>
@@ -55,6 +55,10 @@ export default {
     margin-bottom: 20px;
   }
 
+  .active{
+    color: #409EFF!important;
+  }
+
   .icon{
     height: 10px;
     width: 10px;
@@ -66,14 +70,15 @@ export default {
   .text{
     font-size: 14px;
     color: #303133;
-    width: 80px;
+    width: 130px;
   }
 
   .time{
     color: #909399;
     line-height: 1;
     font-size: 13px;
-    margin-top: 8px
+    margin-top: 8px;
+    text-align: center;
   }
 
 }

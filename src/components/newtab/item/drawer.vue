@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-07 11:02:22
- * @LastEditTime: 2021-09-15 16:43:54
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-18 13:21:25
+ * @LastEditors: Dragon
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/record.vue
 -->
@@ -10,21 +10,12 @@
   <el-drawer
     :visible.sync="drawers"
     :before-close="handleClose"
-    :with-header="false"
-    size="1000px"
+    title="沟通记录表"
+    destroy-on-close
+    size="1200px"
   >
     <div class="record-wrap" >
       <el-card header="进度信息" class="card">
-        <!-- <el-timeline>
-        <el-timeline-item
-          v-for="(item, index) in progressList"
-          :key="index"
-          :timestamp="item.creationtime"
-          icon="el-icon-more"
-        >
-          {{ item.content }}
-        </el-timeline-item>
-      </el-timeline> -->
         <TimeLine :list="progressList" />
       </el-card>
 
@@ -86,7 +77,7 @@
         <el-row :gutter="24">
           <el-col :span="6">
             <div class="form-item">
-              <div class="label">交货日期</div>
+              <div class="label">预计交货日期</div>
               <div class="value">{{ detail.scheduledtime }}</div>
             </div>
           </el-col>
@@ -105,8 +96,8 @@
           <el-col :span="6">
             <div class="form-item">
               <div class="label">超期时间</div>
-              <div :class="computeData(detail.scheduledtime) > 0 ? 'red' :'green'" class="num">
-                {{ computeData(detail.scheduledtime) }}
+              <div :class="computeData(detail) > 0 ? 'red' :'green'" class="num">
+                {{ computeData(detail) }}
               </div>
             </div>
           </el-col>
@@ -182,7 +173,63 @@ export default {
       progressList: [], // 进度信息
       messageList: [], // 沟通信息
       content: '', //
-      list: ['销售报价', '采购报价', '生产报价', '报价完成', '销售发起', '工艺审核', '库房备料', '生产计划', '物料采购', '来料质检', '物料入库', 'SMT生产', 'DIP生产', '三防生产', '老化测试', '成品质检', '成品入库', '成品出库']
+      list: [
+        {
+          shortName: '销售报价',
+          name: '销售发起报价'
+        }, {
+          shortName: '采购报价',
+          name: '采购报价完成'
+        }, {
+          shortName: '生产报价',
+          name: '生产报价完成'
+        }, {
+          shortName: '报价完成',
+          name: '销售报价完成'
+        }, {
+          shortName: '销售发起',
+          name: '销售发起成功'
+        }, {
+          shortName: '工艺审核',
+          name: '工艺审核确认完成'
+        }, {
+          shortName: '库房备料',
+          name: '库房备料确认完成'
+        }, {
+          shortName: '生产计划',
+          name: '生产计划确认完成'
+        }, {
+          shortName: '物料采购',
+          name: '物料采购确认完成'
+        }, {
+          shortName: '来料质检',
+          name: '来料质检确认完成'
+        }, {
+          shortName: '物料入库',
+          name: '物料入库确认完成'
+        }, {
+          shortName: 'SMT生产',
+          name: 'SMT生产确认完成'
+        }, {
+          shortName: 'DIP生产',
+          name: 'DIP生产确认完成'
+        }, {
+          shortName: '三防生产',
+          name: '三防生产确认完成'
+        }, {
+          shortName: '老化测试',
+          name: '组装测试老化生产确认完成'
+        }, {
+          shortName: '成品质检',
+          name: '成品质检确认完成'
+        }, {
+          shortName: '成品入库',
+          name: '成品入库确认完成'
+        }, {
+          shortName: '成品出库',
+          name: '成品出库确认完成'
+        }
+      ]
     }
   },
   watch: {
@@ -205,30 +252,18 @@ export default {
   methods: {
     getDetail() {
       selectAllOrderSaleStartB({
-        pkProductOrderB: this.quto
+        pkProductOrderB: this.pkProductOrderB
       }).then(res => {
         if (res.success) {
           this.detail = res.object
           const list = res.object.omgOrderSaleStartBPoList || []
-          const arr = []
-          const process = list.filter(item => item.msgType === 2)
+          const process = list.filter(item => item.msgType === 0)
           this.messageList = list.filter(item => item.msgType === 1)
-          this.list.forEach(items => {
-            arr.push({
-              content: items,
-              creationtime: ''
-            })
-          })
+          const arr = JSON.parse(JSON.stringify(this.list))
           arr.forEach(items => {
             process.forEach(item => {
-              if (item.content === items) {
+              if (item.content === items.name) {
                 items.creationtime = item.creationtime
-                arr.push({
-                  content: items,
-                  creationtime: ''
-                })
-              } else {
-                items.creationtime = ''
               }
             })
           })
@@ -236,11 +271,13 @@ export default {
         }
       })
     },
-    computeData(value) {
-      if (value) {
+    computeData(detail) {
+      console.log(detail.scheduledtime)
+      console.log(detail.putoutOutTime)
+      if (detail.scheduledtime) {
         const date = new Date()
         const today = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-        return getDateDiff(value, today, 'day')
+        return getDateDiff(detail.scheduledtime, detail.putoutOutTime ? detail.putoutOutTime : today, 'day')
       }
     },
     // 置顶
@@ -283,11 +320,13 @@ export default {
       color: #999999;
       font-size: 14px;
       margin-right: 10px;
-      width: 80px;
+      width: 100px;
+      text-align: right;
     }
     .value{
       color: #606266;
       font-size: 16px;
+      max-width: 100px;
     }
   }
 

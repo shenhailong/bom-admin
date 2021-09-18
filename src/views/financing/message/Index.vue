@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-19 08:41:46
- * @LastEditTime: 2021-09-17 09:26:52
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-18 12:39:09
+ * @LastEditors: Dragon
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/views/customer/info/custominfo.vue
 -->
@@ -247,8 +247,8 @@
         <el-table-column label="操作" width="260" fixed="right">
           <template slot-scope="scope">
             <el-button v-if="scope.row.concerned === '0'" type="primary" size="mini" @click="follow2(scope.row, scope.$index, '1')">关注</el-button>
-            <el-button v-if="scope.row.concerned === '1'" type="warning" size="mini" @click="follow2(scope.row, scope.$index, '0')">取消关注</el-button>
-            <el-button type="primary" size="mini" @click="showDrawer(scope.row)">沟通记录</el-button>
+            <el-button v-if="scope.row.concerned === '1'" type="warning" size="mini" @click="follow2(scope.row, scope.$index, '0')">关注</el-button>
+            <el-button type="primary" size="mini" @click="showDrawer(scope.row)">留言</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -266,26 +266,20 @@
       />
     </div>
 
-    <el-drawer
-      :visible.sync="drawer"
-      title="沟通记录表"
-      size="70%"
-      destroy-on-close
-    >
-      <Record :pk-product-order-b="pkProductOrderB"/>
-    </el-drawer>
+    <drawer :drawer="drawer" :quto="pkProductOrderB" @closer="drawers" />
   </div>
 </template>
 
 <script>
+import drawer from '@/components/newtab/item/drawer'
 import * as saleApi from '@/api/salemage/salequote' // 销售报价
 import { listBdPsndocAsRef } from '@/api/orgs/bdpsndoc'
 import { updateProductOrderB } from '@/api/orders/orders'
 import { BILL_STATE_OBJ, PRODUCT_TYPE_OBJ } from '@/constants/status'
-import Record from './Record.vue'
+
 export default {
   components: {
-    Record
+    drawer
   },
   data() {
     return {
@@ -330,6 +324,10 @@ export default {
     this.getList2()
   },
   methods: {
+    // 消息中心的调用
+    drawers() {
+      this.drawer = !this.drawer
+    },
     transferSpace(data) {
       for (const key in data) {
         if (data[key] === '') {
