@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2021-09-17 15:19:04
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-18 09:00:39
+ * @LastEditTime: 2021-09-22 16:09:58
 -->
 <template>
   <my-tabs ref="tab" :tab-list="tabList" :tab-name="tabName" @cutTabs="myTabsSwitch">
@@ -26,10 +26,13 @@
 import MyTabs from '@/components/MyTabs'
 import MyTabsMixin from '@/mixins/MyTabs'
 export default {
-  name: 'CommunityTopic',
+  name: 'TechnicsAudit',
   components: {
     MyTabs,
-    List: resolve => require(['./list.vue'], resolve)
+    List: resolve => require(['./list.vue'], resolve),
+    VersionList: resolve => require(['./versionList.vue'], resolve),
+    InstructList: resolve => require(['./instructList.vue'], resolve),
+    InstructEdit: resolve => require(['./instructEdit.vue'], resolve)
   },
   mixins: [MyTabsMixin],
   data() {

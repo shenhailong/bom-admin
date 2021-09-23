@@ -6,7 +6,7 @@
           <el-form-item label="审核状态">
             <el-select
               v-model="searchForm.technicsState"
-              placeholder="请选择单据状态"
+              placeholder="请选择审核状态"
             >
               <el-option label="全部" value="" />
               <el-option
@@ -42,7 +42,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="resetList">查询</el-button>
+            <el-button type="primary" @click="getTableList">查询</el-button>
             <el-button type="danger" @click="resetList">重置</el-button>
           </el-form-item>
         </el-col>
@@ -50,7 +50,7 @@
     </el-form>
     <el-row>
       <el-col :span="24">
-        <el-button :disabled="!selection.length" size="mini" type="primary" @click="detail">导出报表</el-button>
+        <el-button :disabled="!selection.length" size="mini" type="primary" @click="exportExcel">导出报表</el-button>
         <el-button size="mini" type="primary" @click="showOperation = !showOperation">{{ showOperation ? '隐藏' : '显示' }}操作栏</el-button>
       </el-col>
     </el-row>
@@ -66,48 +66,50 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.8)"
-        @select="selectSingle"
-        @select-all="selectAll"
+        @selection-change="selectionChange"
       >
         <el-table-column type="selection" width="55" />
         <el-table-column
           type="index"
           label="序号"
           width="50"/>
-        <el-table-column prop="code" label="产品编号" width="100" />
-        <el-table-column prop="name" label="产品名称" width="120" />
-        <el-table-column prop="model" label="产品型号" width="120" />
-        <el-table-column prop="technicsState" label="单据状态" width="140" />
-        <el-table-column prop="modifierShow" label="最后修改人" width="100" />
-        <el-table-column prop="modifiedtime" label="最后修改时间" width="140"/>
-        <el-table-column prop="creationtime" label="创建时间" width="140"/>
-        <el-table-column prop="pcbSource" label="PCB来源" />
-        <el-table-column prop="skillContactsPhone" label="技术联系电话" width="110"/>
-        <el-table-column prop="skillContactsPhone" label="技术联系电话" width="110"/>
-        <el-table-column prop="pkPsndocShow" label="业务员" />
+        <template v-for="item in columns">
+          <el-table-column
+            v-if="!item.primary"
+            :key="item.prop"
+            :prop="item.prop"
+            :label="item.label"
+            :width="item.width"
+            :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              {{ item.filter ? item.filter[scope.row[item.prop]] : scope.row[item.prop] }}
+            </template>
+          </el-table-column>
+        </template>
 
         <el-table-column v-if="showOperation" label="操作" width="260" fixed="right">
           <template slot-scope="scope">
-            <el-button type="success" size="mini" @click="edit(scope.row)">详情</el-button>
+            <el-button type="success" size="mini" @click="instruction(scope.row)">作业指导书</el-button>
             <el-dropdown style="margin:0 5px">
               <el-button type="primary" size="mini">更多操作
                 <i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
 
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click.native="setDepartment(scope.row.id)">查看子表</el-dropdown-item>
-                <el-dropdown-item @click.native="setArea(scope.row.id)">全部完成</el-dropdown-item>
-                <el-dropdown-item @click.native="setRole(scope.row.id)">查看进度条</el-dropdown-item>
-                <el-dropdown-item @click.native="setRole(scope.row.id)">通知钉钉</el-dropdown-item>
-                <el-dropdown-item @click.native="setRole(scope.row.id)">查看主题</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.pIsverify === '0'" @click.native="reAudit(scope.row.pkProduct)">审核</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.pIsverify === '1'" @click.native="sendBack(scope.row.pkProduct)">退回</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.pIsverify === '2'" @click.native="reAudit(scope.row.pkProduct)">重新审核</el-dropdown-item>
+                <!-- <el-dropdown-item @click.native="setRole(scope.row.id)">查看进度条</el-dropdown-item> -->
+                <el-dropdown-item @click.native="openDing(scope.row)">通知审核</el-dropdown-item>
+                <!-- <el-dropdown-item @click.native="setRole(scope.row.id)">查看主题</el-dropdown-item> -->
               </el-dropdown-menu>
             </el-dropdown>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
-        :current-page="pageNum"
-        :page-size="pageSize"
+        :current-page="page"
+        :page-size="limit"
         :page-sizes="[10, 20, 30, 40]"
         :total="total"
         class="table_pagination"
@@ -117,32 +119,51 @@
         @size-change="handleSizeChange"
       />
     </div>
+    <!--送审框Dialog通知钉钉-->
+    <CommitDialog
+      :visiable="commitDialog.visiable"
+      :param-data="commitDialog.paramData"
+      @close="() => { commitDialog.visiable = false }"
+      @commitMethod="overTechnicsProccessMethod"/>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
   selectAllProductionDefenseAsPage,
   updataSelectAllProductionDefenseAsPage,
   defenseInspeReportProccess
 } from '@/api/ThreePreventions/index' // 三防信息
 import { listBdPsndocAsRef } from '@/api/orgs/bdpsndoc'
-import { BILL_STATE_OBJ, PRODUCT_TYPE_OBJ } from '@/constants/status'
+import { BILL_STATE_OBJ, TECHNICS_AUDIT_OBJ, SOURCE_COMMON_OBJ } from '@/constants/status'
 import { listTecaudit, updateTecaudit, overTechnicsProccess } from '@/api/technics/tecaudit'
+import CommitDialog from '@/components/Commitdingding/CommitDialog'
+import ListMixin from '@/mixins/list'
 import { selectOrderInfoAsRef } from '@/api/orderCompMage/orderCompMage'
 
 export default {
   components: {
-
+    CommitDialog
   },
+  mixins: [ListMixin],
   data() {
     return {
-      total: 10,
-      list: [],
-      page: 1, // 页数
-      limit: 10, // 每页显示条数
-      showDialog: false, // 显示弹窗开关
-      projectList: [],
+      excelName: '产品工艺审核',
+      columns: [
+        { prop: 'pkProduct', label: '主键', width: '10', primary: true },
+        { prop: 'code', label: '产品编码', width: '110' },
+        { prop: 'name', label: '产品名称', width: '120' },
+        { prop: 'model', label: '产品型号', width: '120' },
+        { prop: 'technicsState', label: '单据状态', width: '140', filter: TECHNICS_AUDIT_OBJ },
+        { prop: 'modifierShow', label: '最后修改人', width: '100' },
+        { prop: 'modifiedtime', label: '最后修改时间', width: '140' },
+        { prop: 'creationtime', label: '创建时间', width: '140' },
+        { prop: 'pcbSource', label: 'PCB来源', filter: SOURCE_COMMON_OBJ },
+        { prop: 'skillContactsName', label: '技术联系人', width: '130' },
+        { prop: 'skillContactsPhone', label: '技术联系电话', width: '110' },
+        { prop: 'pkPsndocShow', label: '业务员' }
+      ],
       searchForm: {
         dr: 0, // 0 是没有删除 1代表是删除
         name: null, // 产品名称
@@ -150,8 +171,11 @@ export default {
         pkPsndocShow: null, // 业务经理
         technicsState: '22' // 审核状态
       },
-      selection: [], // 选择的list
-      showOperation: true,
+      managerList: [],
+      commitDialog: {
+        visiable: false,
+        paramData: null
+      }, // 通知钉钉审核
       children: [
         {
           value: null,
@@ -172,8 +196,14 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters([
+      'name',
+      'roles'
+    ])
+  },
   mounted() {
-    this.getList()
+    this.getManage()
   },
   methods: {
     async getManage() {
@@ -183,37 +213,76 @@ export default {
       }
     },
     // 查询列表数据
-    async getList() {
-      const params = {
-        ...this.searchForm,
-        limit: this.limit,
-        page: this.page
-      }
+    async getList(params) {
       const res = await listTecaudit(params)
       if (res.success) {
         this.list = res.object
+        this.total = res.total
       }
     },
-    // 单选
-    selectSingle(selection) {
-      console.log(selection)
-      this.selection = selection
+    // 打开钉钉
+    openDing(param) {
+      this.commitDialog = {
+        visiable: true,
+        paramData: param
+      }
     },
-    // 全部选择
-    selectAll(selection) {
-      console.log(selection)
-      this.selection = selection
+    // 重新审核 \ 审核
+    reAudit(pkProduct) {
+      const param = { pIsverify: '1', pkProduct }
+      if (this.name === 'admin') {
+        this.$message.error('工艺人员未提交,请本人操作!')
+      } else {
+        this.$confirm('您确定要提交审核吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async() => {
+          const res = await updateTecaudit(param)
+          if (res.success) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+            this.reloadList()
+          }
+        }).catch(() => {})
+      }
     },
-    // 点击每页多少条
-    handleSizeChange(val) {
-      this.pageSize = val
-      this.pageNum = 1
-      this.getTableList()
+    // 退回
+    sendBack(pkProduct) {
+      const param = { pIsverify: '2', pkProduct }
+      if (this.name === 'admin') {
+        this.$confirm('您确定要退回吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async() => {
+          const res = await updateTecaudit(param)
+          if (res.success) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+            this.reloadList()
+          }
+        }).catch(() => {})
+      } else {
+        this.$message.error('您不是管理员无法审核!')
+      }
     },
-    // 点击页数
-    handleCurrentChange(val) {
-      this.pageNum = val
-      this.getTableList()
+    // 通过工艺审核
+    overTechnicsProccessMethod(sendMsgParam) {
+      console.log(sendMsgParam)
+    },
+    // 作业指导书
+    instruction(row) {
+      this.$emit('addTab', {
+        name: `Detail${row.pkProduct}`,
+        title: `作业指导书版本列表-${row.name}`,
+        content: 'versionList',
+        editData: row.pkProduct
+      })
     }
   }
 }

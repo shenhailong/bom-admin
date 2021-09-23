@@ -1,7 +1,7 @@
 /*
  * @Author: 状态常量
  * @Date: 2021-09-13 10:45:22
- * @LastEditTime: 2021-09-18 14:05:45
+ * @LastEditTime: 2021-09-21 23:53:31
  * @LastEditors: Dragon
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/constants/status.js
@@ -104,3 +104,29 @@ const TECHNICS_AUDIT_OBJ = {
 }
 
 export { TECHNICS_AUDIT_LIST, TECHNICS_AUDIT_OBJ, TECHNICS_AUDI_FREE, TECHNICS_AUDI_ALREADY, TECHNICS_AUDI_PENDING, TECHNICS_AUDI_COMPLETE }
+
+// 来源
+const SOURCE_COMMON_NONE = '0' // 无
+const SOURCE_COMMON_A = '1' // 甲方提供
+const SOURCE_COMMON_B = '2' // 乙方提供
+
+const SOURCE_COMMON_LIST = [
+  {
+    value: SOURCE_COMMON_NONE,
+    label: '无'
+  }, {
+    value: SOURCE_COMMON_A,
+    label: '甲方提供'
+  }, {
+    value: SOURCE_COMMON_B,
+    label: '乙方提供'
+  }
+]
+
+const SOURCE_COMMON_OBJ = {
+  [SOURCE_COMMON_NONE]: '无',
+  [SOURCE_COMMON_A]: '甲方提供',
+  [SOURCE_COMMON_B]: '乙方提供'
+}
+
+export { SOURCE_COMMON_LIST, SOURCE_COMMON_OBJ }
