@@ -89,9 +89,11 @@
 
         <el-table-column v-if="showOperation" label="操作" width="260" fixed="right">
           <template slot-scope="scope">
-            <el-button type="success" size="mini" @click="instruction(scope.row)">作业指导书</el-button>
+            <el-button type="success" size="mini" @click="version(scope.row)">版本</el-button>
+            <el-button size="mini" @click="openContent(scope.row, '查看')">详情</el-button>
+            <el-button type="primary" size="mini" @click="openContent(scope.row, '产品工艺详情')">编辑</el-button>
             <el-dropdown style="margin:0 5px">
-              <el-button type="primary" size="mini">更多操作
+              <el-button type="success" size="mini">更多
                 <i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
 
@@ -100,7 +102,7 @@
                 <el-dropdown-item v-if="scope.row.pIsverify === '1'" @click.native="sendBack(scope.row.pkProduct)">退回</el-dropdown-item>
                 <el-dropdown-item v-if="scope.row.pIsverify === '2'" @click.native="reAudit(scope.row.pkProduct)">重新审核</el-dropdown-item>
                 <!-- <el-dropdown-item @click.native="setRole(scope.row.id)">查看进度条</el-dropdown-item> -->
-                <el-dropdown-item @click.native="openDing(scope.row)">通知审核</el-dropdown-item>
+                <el-dropdown-item @click.native="openDing(scope.row)">钉钉通知</el-dropdown-item>
                 <!-- <el-dropdown-item @click.native="setRole(scope.row.id)">查看主题</el-dropdown-item> -->
               </el-dropdown-menu>
             </el-dropdown>
@@ -125,6 +127,15 @@
       :param-data="commitDialog.paramData"
       @close="() => { commitDialog.visiable = false }"
       @commitMethod="overTechnicsProccessMethod"/>
+    <!--查看详情界面-->
+    <Tecauditcontent
+      :replace="replace"
+      :visiable="content.visiable"
+      :title="content.title"
+      :action="content.action"
+      :update-row="content.updateRow"
+      @close="closeContent"
+      @refreshList="getTableList"/>
   </div>
 </template>
 
@@ -139,12 +150,15 @@ import { listBdPsndocAsRef } from '@/api/orgs/bdpsndoc'
 import { BILL_STATE_OBJ, TECHNICS_AUDIT_OBJ, SOURCE_COMMON_OBJ } from '@/constants/status'
 import { listTecaudit, updateTecaudit, overTechnicsProccess } from '@/api/technics/tecaudit'
 import CommitDialog from '@/components/Commitdingding/CommitDialog'
+import Tecauditcontent from '@/views/technics/tecaudit/content'
+
 import ListMixin from '@/mixins/list'
 import { selectOrderInfoAsRef } from '@/api/orderCompMage/orderCompMage'
 
 export default {
   components: {
-    CommitDialog
+    CommitDialog,
+    Tecauditcontent
   },
   mixins: [ListMixin],
   data() {
@@ -176,6 +190,22 @@ export default {
         visiable: false,
         paramData: null
       }, // 通知钉钉审核
+      content: {
+        visiable: false, // 内容界面显示控制
+        title: '', // 标题
+        action: null, // 执行Action
+        updateRow: null // 更新时带过来的temp
+      },
+      replace: [
+        {
+          name: 'technicsState',
+          replace: { 0: '自由态', 20: '已申请', 21: '工艺审核中', 22: '工艺审核完成' }
+        },
+        {
+          name: 'pcbSource',
+          replace: { 0: '无', 1: '甲方提供', 2: '乙方提供' }
+        }
+      ],
       children: [
         {
           value: null,
@@ -219,6 +249,17 @@ export default {
         this.list = res.object
         this.total = res.total
       }
+    },
+    // 打开内容界面Dialog
+    openContent(row, title) {
+      this.content.updateRow = row
+      this.content.visiable = true
+      this.content.title = title
+      this.content.action = updateTecaudit
+    },
+    // 关闭内容界面Dialog
+    closeContent(tempData) {
+      this.content.visiable = false
     },
     // 打开钉钉
     openDing(param) {
@@ -275,11 +316,11 @@ export default {
     overTechnicsProccessMethod(sendMsgParam) {
       console.log(sendMsgParam)
     },
-    // 作业指导书
-    instruction(row) {
+    // 版本列表
+    version(row) {
       this.$emit('addTab', {
         name: `Detail${row.pkProduct}`,
-        title: `作业指导书版本列表-${row.name}`,
+        title: `版本列表-${row.name}`,
         content: 'versionList',
         editData: row.pkProduct
       })

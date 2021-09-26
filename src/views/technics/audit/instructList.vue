@@ -3,11 +3,11 @@
  * @Author: Dragon
  * @Date: 2021-09-18 20:56:05
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-22 22:10:15
+ * @LastEditTime: 2021-09-24 15:28:26
 -->
 <template>
   <div class="panel-page">
-    <el-button v-if="editData.editionState === 0" size="medium" type="primary" @click="add">新增作业指导书</el-button>
+    <el-button v-if="editData.editionState === 0" size="medium" type="primary" @click="addInstruct">新增作业指导书</el-button>
     <el-table
       :header-cell-style="{
         background: '#EFF0FF',
@@ -35,20 +35,18 @@
       <el-table-column label="操作" width="230">
         <template slot-scope="scope">
           <el-button size="mini" @click="look(scope.row)"> 查看</el-button>
-          <el-button v-if="editData.editionState === 0" type="primary" size="mini" @click="text_push(scope.row)"> 编辑</el-button>
+          <el-button v-if="editData.editionState === 0" type="primary" size="mini" @click="editInstruct(scope.row)"> 编辑</el-button>
           <el-button v-if="editData.editionState === 0" type="danger" size="mini" @click="text_dlete(scope.row)"> 删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <InstructionDetail :visible.sync="visible"/>
+    <InstructionDetail :detail="detail" :visible.sync="visible"/>
   </div>
 </template>
 
 <script>
 import {
-  saveSopEdition,
-  selectSopParameterBySopEditionId,
-  selectAllBillOfMaterialById
+  selectSopParameterBySopEditionId
 } from '@/api/sop/book' // sop接口
 import InstructionDetail from './instructDetail.vue'
 export default {
@@ -66,30 +64,20 @@ export default {
   data() {
     return {
       tableList: [],
-      materialList: [], // 物料明细
       submitting: false,
       isEdit: false,
       showDialog: false,
       pkSopEdition: null, // sop版本号主键
-      visible: false
+      visible: false,
+      detail: {
+        billOfMaterialCraftPos: []
+      }
     }
   },
   mounted() {
     this.getList()
-    console.log(this.editData)
   },
   methods: {
-    // 获取物料明细
-    async getMaterialList() {
-      const params = {
-        pkProduct: this.editData.pkProduct,
-        pkSopEdition: this.editData.pkSopEdition
-      }
-      const res = await selectAllBillOfMaterialById(params)
-      if (res.success) {
-        this.materialList = res.object || []
-      }
-    },
     // 查询列表数据
     async getList() {
       const params = { pkSopEdition: this.editData.pkSopEdition }
@@ -98,12 +86,11 @@ export default {
         this.tableList = res.object
       }
     },
-    // 新增\编辑作业指导书
-    add(row) {
-      console.log(row)
+    // 新增作业指导书
+    addInstruct(row) {
       this.$emit('addTab', {
         name: `instructEdit${row.pkProduct}`,
-        title: `作业指导书版本列表-${row.name}`,
+        title: `新增作业指导书`,
         content: 'instructEdit',
         editData: {
           pkProduct: this.editData.pkProduct,
@@ -112,34 +99,25 @@ export default {
         }
       })
     },
+    // 编辑作业指导书
+    editInstruct(row) {
+      console.log(row)
+      this.$emit('addTab', {
+        name: `instructEdit${row.pkProduct}`,
+        title: `编辑作业指导书-${row.name}`,
+        content: 'instructEdit',
+        editData: {
+          row,
+          pkProduct: this.editData.pkProduct,
+          pkSopEdition: this.editData.pkSopEdition,
+          editionState: row.editionState // 状态，只有自由态才可新增编辑
+        }
+      })
+    },
     // 查看
-    look() {
+    look(row) {
+      this.detail = row
       this.visible = true
-    },
-    // 修改版本号
-    edit(row) {
-      this.isEdit = true
-      this.showDialog = true
-      this.ruleForm.editionNum = row.editionNum
-      this.pkSopEdition = row.pkSopEdition
-    },
-    // 复制
-    copy(row) {
-      const params = { pkSopEdition: row.pkSopEdition }
-      this.$confirm('是否复制?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async() => {
-        // const res = await copySopEdition(params)
-        // if (res.success) {
-        //   this.$message({
-        //     message: '复制成功',
-        //     type: 'success'
-        //   })
-        //   this.getList()
-        // }
-      }).catch(() => {})
     }
   }
 }

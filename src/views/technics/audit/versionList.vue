@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2021-09-18 20:56:05
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-22 16:03:56
+ * @LastEditTime: 2021-09-24 14:34:20
 -->
 <template>
   <div class="panel-page">
@@ -136,10 +136,9 @@ export default {
     },
     // 作业指导书
     look(row) {
-      console.log(row)
       this.$emit('addTab', {
         name: `instructList${row.pkProduct}`,
-        title: `作业指导书版本列表-${row.name}`,
+        title: `指导书列表-${row.productName}-${row.editionNum}(版本)`,
         content: 'instructList',
         editData: {
           pkProduct: row.pkProduct,

@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2021-07-05 13:43:00
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-22 16:05:10
+ * @LastEditTime: 2021-09-24 15:31:53
 -->
 <template>
   <el-dialog
@@ -23,59 +23,59 @@
       <el-row>
         <el-col :span="6">
           <div class="form-item">产品名称：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.productName }}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="form-item">产品编码：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.productCode }}</span>
           </div>
         </el-col>
         <el-col :span="2">
           <div class="form-item">制程：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.productName }}</span>
           </div>
         </el-col>
         <el-col :span="4">
           <div class="form-item">制作部门：
-            <span class="value">电路板</span>
+            <span class="value">工艺部门</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="form-item border-right-none">执行部门：
-            <span class="value">电路板</span>
+            <span class="value">生产部门</span>
           </div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="6">
           <div class="form-item">工序名称：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.process }}</span>
           </div>
         </el-col>
         <el-col :span="3">
           <div class="form-item">面别：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.category }}</span>
           </div>
         </el-col>
         <el-col :span="3">
           <div class="form-item">作业人数：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.peopleNum }}</span>
           </div>
         </el-col>
         <el-col :span="2">
           <div class="form-item">工时：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.manHour }}小时</span>
           </div>
         </el-col>
         <el-col :span="2">
           <div class="form-item">版本：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.versions }}</span>
           </div>
         </el-col>
         <el-col :span="2">
           <div class="form-item">阶段标记：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.phaseMarker }}</span>
           </div>
         </el-col>
         <el-col :span="4">
@@ -84,7 +84,7 @@
         </el-col>
         <el-col :span="2">
           <div class="form-item border-right-none">页码：
-            <span class="value">电路板</span>
+            <span class="value">{{ detail.pageNum }}</span>
           </div>
         </el-col>
       </el-row>
@@ -103,25 +103,25 @@
           <div class="form-item center border-right-none">位号</div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-for="item in detail.billOfMaterialCraftPos" :key="item.pkOfMaterialCraft">
         <el-col :span="6">
           <div class="form-item center">
-            <span class="value">电路板</span>
+            <span class="value">{{ item.materielName }}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="form-item center">
-            <span class="value">电路板</span>
+            <span class="value">{{ item.materielSpecifications }}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="form-item center">
-            <span class="value">电路板</span>
+            <span class="value">{{ item.num }}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="form-item center border-right-none">
-            <span class="value">电路板</span>
+            <span class="value">{{ item.bitNum }}</span>
           </div>
         </el-col>
       </el-row>
@@ -129,21 +129,21 @@
         <el-col :span="12">
           <div class="form-item center">样图</div>
           <div class="img-wrap">
-            <img class="img" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhimg2.huanqiu.com%2Fattachment2010%2F2014%2F0219%2F20140219024324755.jpg&refer=http%3A%2F%2Fhimg2.huanqiu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1633584860&t=756ec4da70e9cc24206c224344de7d3d">
+            <img :src="detail.sopImgUrl" class="img">
           </div>
         </el-col>
         <el-col :span="12">
           <div class="explain one">
             <div class="tip">使用工具：</div>
-            <div class="value">使用工具</div>
+            <div class="value">{{ detail.tool }}</div>
           </div>
           <div class="explain two">
             <div class="tip">操作步骤：</div>
-            <div class="value">使用工具</div>
+            <div class="value">{{ detail.operation }}</div>
           </div>
           <div class="explain three border-bottom-none">
             <div class="tip">注意事项说明：</div>
-            <div class="value">使用工具</div>
+            <div class="value">{{ detail.explains }}</div>
           </div>
         </el-col>
       </el-row>
@@ -157,11 +157,16 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    detail: {
+      type: [Object],
+      default: () => {
+        return {}
+      }
     }
   },
   data() {
     return {
-      list: []
     }
   },
   mounted() {
@@ -169,7 +174,6 @@ export default {
   },
   methods: {
     closeDialog() {
-      console.log(111)
       this.$emit('update:visible', false)
     }
   }
