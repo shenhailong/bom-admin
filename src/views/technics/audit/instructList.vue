@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2021-09-18 20:56:05
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-24 15:28:26
+ * @LastEditTime: 2021-10-08 17:06:43
 -->
 <template>
   <div class="panel-page">
@@ -36,7 +36,7 @@
         <template slot-scope="scope">
           <el-button size="mini" @click="look(scope.row)"> 查看</el-button>
           <el-button v-if="editData.editionState === 0" type="primary" size="mini" @click="editInstruct(scope.row)"> 编辑</el-button>
-          <el-button v-if="editData.editionState === 0" type="danger" size="mini" @click="text_dlete(scope.row)"> 删除</el-button>
+          <el-button v-if="editData.editionState === 0" type="danger" size="mini" @click="deleteInstruct(scope.row)"> 删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,7 +46,8 @@
 
 <script>
 import {
-  selectSopParameterBySopEditionId
+  selectSopParameterBySopEditionId,
+  delSopParameterById
 } from '@/api/sop/book' // sop接口
 import InstructionDetail from './instructDetail.vue'
 export default {
@@ -93,6 +94,7 @@ export default {
         title: `新增作业指导书`,
         content: 'instructEdit',
         editData: {
+          tabName: `instructEdit${row.pkProduct}`,
           pkProduct: this.editData.pkProduct,
           pkSopEdition: this.editData.pkSopEdition,
           editionState: row.editionState // 状态，只有自由态才可新增编辑
@@ -104,10 +106,11 @@ export default {
       console.log(row)
       this.$emit('addTab', {
         name: `instructEdit${row.pkProduct}`,
-        title: `编辑作业指导书-${row.name}`,
+        title: `编辑作业指导书-${row.pkSopParameter}`,
         content: 'instructEdit',
         editData: {
           row,
+          tabName: `instructEdit${row.pkProduct}`,
           pkProduct: this.editData.pkProduct,
           pkSopEdition: this.editData.pkSopEdition,
           editionState: row.editionState // 状态，只有自由态才可新增编辑
@@ -118,6 +121,24 @@ export default {
     look(row) {
       this.detail = row
       this.visible = true
+    },
+    deleteInstruct(item) {
+      this.$confirm('是否删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const jsons = { pkSopParameter: item.pkSopParameter }
+        delSopParameterById(jsons).then((res) => {
+          if (res.success) {
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            })
+            this.getList()
+          }
+        })
+      })
     }
   }
 }

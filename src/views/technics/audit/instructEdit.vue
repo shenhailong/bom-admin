@@ -1,7 +1,7 @@
 <template>
   <div class="content instruct-edit">
     <div class="title_wrap">
-      <div class="title"><i class="el-icon-edit" /> {{ ruleForm.id ? '修改作业指导书' : '新增作业指导书' }}</div>
+      <div class="title"><i class="el-icon-edit" /> {{ isEdit ? '修改作业指导书' : '新增作业指导书' }}</div>
       <el-button :loading="submitting" size="small" type="primary" @click="submitForm('ruleForm')">提交</el-button>
     </div>
     <el-form ref="ruleForm" :rules="rules" :model="ruleForm" label-width="110px" size="small">
@@ -61,7 +61,7 @@
               :action="uploadUrl"
               :on-success="uploadSuccess"
               list-type="picture-card">
-              <!-- <i slot="default" class="el-icon-plus"/> -->
+              <i slot="default" class="el-icon-plus"/>
               <div slot="file" slot-scope="{file}">
                 <img
                   :src="file.url"
@@ -176,7 +176,8 @@
 
 <script>
 import {
-  selectAllBillOfMaterialById
+  selectAllBillOfMaterialById,
+  saveSopParameter
 } from '@/api/sop/book' // sop接口
 export default {
   props: {
@@ -241,16 +242,17 @@ export default {
         }],
         explains: [{
           required: true, message: '请输入注意事项说明', trigger: 'blur'
-        }],
-        sopImgUrl: [{
-          required: true, message: '请上传样图', trigger: 'blur'
         }]
+        // sopImgUrl: [{
+        //   required: true, message: '请上传样图', trigger: 'blur'
+        // }]
       },
       submitting: false,
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: false,
       fileList: [],
+      isEdit: false,
       uploadUrl: process.env.BASE_API + '/BillSopEditionController/saveSopImage'
     }
   },
@@ -270,6 +272,7 @@ export default {
         this.materialList = res.object || []
         if (this.editData.row) {
           this.ruleForm = this.editData.row
+          this.isEdit = true
           this.ruleForm.resultData = this.editData.row.billOfMaterialCraftPos
           const data = {
             name: this.editData.row.sopImgUrl,
@@ -329,12 +332,52 @@ export default {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
+    // 返回
+    close() {
+      this.$emit('removeTab')
+    },
     // 提交数据
     submitForm(formName) {
       console.log(this.ruleForm)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.ruleForm)
+          let pkOfMaterialCraft = ''
+          this.ruleForm.resultData.forEach((item, index) => {
+            pkOfMaterialCraft += (index !== 0 ? ',' : '') + item.pkOfMaterialCraft
+          })
+          const data = {
+            pkProduct: this.editData.pkProduct,
+            pkSopEdition: this.editData.pkSopEdition,
+            pkSopParameter: this.isEdit ? this.ruleForm.pkSopParameter : null,
+            processType: this.ruleForm.processType,
+            process: this.ruleForm.process,
+            category: this.ruleForm.category,
+            peopleNum: this.ruleForm.peopleNum,
+            versions: this.ruleForm.versions,
+            phaseMarker: this.ruleForm.phaseMarker,
+            pageNum: this.ruleForm.pageNum,
+            manHour: this.ruleForm.manHour,
+            sopImgUrl: this.ruleForm.sopImgUrl,
+            tool: this.ruleForm.tool,
+            operation: this.ruleForm.operation,
+            explains: this.ruleForm.explains,
+            pkOfMaterialCraft: pkOfMaterialCraft
+          }
+          console.log(data)
+          saveSopParameter(data).then(res => {
+            console.log(res)
+            if (res.success) {
+              this.$message({
+                type: 'success',
+                message: '操作成功!'
+              })
+              this.$emit('reload', {
+                name: this.editData.tabName,
+                methods: ['getList']
+              })
+              this.close()
+            }
+          })
         }
       })
     }
