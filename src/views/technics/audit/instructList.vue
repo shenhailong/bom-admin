@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2021-09-18 20:56:05
  * @LastEditors: Dragon
- * @LastEditTime: 2021-10-08 17:06:43
+ * @LastEditTime: 2021-10-08 17:34:02
 -->
 <template>
   <div class="panel-page">
@@ -40,7 +40,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <InstructionDetail :detail="detail" :visible.sync="visible"/>
+    <InstructionDetail v-if="detail.pkSopParameter !== undefined" :detail="detail" :visible.sync="visible"/>
   </div>
 </template>
 
@@ -81,6 +81,7 @@ export default {
   methods: {
     // 查询列表数据
     async getList() {
+      console.log(111)
       const params = { pkSopEdition: this.editData.pkSopEdition }
       const res = await selectSopParameterBySopEditionId(params)
       if (res.success) {

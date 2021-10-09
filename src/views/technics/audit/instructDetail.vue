@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2021-07-05 13:43:00
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-24 15:31:53
+ * @LastEditTime: 2021-10-08 17:27:33
 -->
 <template>
   <el-dialog
@@ -170,7 +170,7 @@ export default {
     }
   },
   mounted() {
-
+    console.log(this.detail)
   },
   methods: {
     closeDialog() {
@@ -192,6 +192,7 @@ export default {
     .form-item{
       font-size: 14px;
       line-height: 40px;
+      height: 40px;
       padding-left: 10px;
       color: #606266;
       border-bottom: 1px solid #333333;
