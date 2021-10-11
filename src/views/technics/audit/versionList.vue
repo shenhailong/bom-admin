@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2021-09-18 20:56:05
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-24 14:34:20
+ * @LastEditTime: 2021-10-11 13:19:50
 -->
 <template>
   <div class="panel-page">
@@ -28,20 +28,24 @@
       </el-table-column>
       <el-table-column prop="editionState" label="审核状态">
         <template slot-scope="scope">
-          {{ scope.row.editionState }}
+          {{ VERSION_STATUS_OBJ[scope.row.editionState] }}
         </template>
       </el-table-column>
       <el-table-column prop="creationtime" label="创建日期" width="200"/>
       <el-table-column fixed="right" label="操作" width="300">
         <template slot-scope="scope">
-          <el-button size="mini" @click="look(scope.row)">查看</el-button>
+          <el-button v-if="scope.row.editionState == 2" type="warning" size="mini" @click="setDefault(scope.row)">
+            {{ scope.row.isDefault == '0' ? '默认' : '取消' }}
+          </el-button>
+          <el-button size="mini" @click="look(scope.row)">指导书</el-button>
           <el-button v-if="scope.row.editionState == 0" type="primary" size="mini" @click="edit(scope.row)">编辑</el-button>
           <el-button type="info" size="mini" @click="copy(scope.row)">复制</el-button>
+          <el-button v-if="scope.row.editionState == 0" type="primary" size="mini" @click="openDing(scope.row)">钉钉</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-dialog
-      :title="isEdit ? '修改版本号' : '新增版本号' "
+      :title="isEdit ? '修改版本号' : '新增版本号'"
       :close-on-press-escape="false"
       :visible.sync="showDialog"
       :close-on-click-modal="false"
@@ -59,6 +63,11 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <CommitDialog
+      :visiable="commitDialogData.visiable"
+      :param-data="commitDialogData.paramData"
+      @close="closeCommitDialog"
+      @commitMethod="dingSubmit"/>
   </div>
 </template>
 
@@ -66,11 +75,15 @@
 import {
   saveSopEdition,
   copySopEdition,
+  defaultSopEdition,
   selectSopEditionByPkProduct
 } from '@/api/sop/book' // sop接口
+import { sendDingMsgByPsndoc } from '@/api/pub/pub' // 调用钉钉后端API接口
+import CommitDialog from '@/components/Commitdingding/CommitDialog'// 钉钉
+import { VERSION_STATUS_OBJ } from '@/constants/status'
 export default {
   components: {
-
+    CommitDialog
   },
   props: {
     editData: {
@@ -80,6 +93,7 @@ export default {
   },
   data() {
     return {
+      VERSION_STATUS_OBJ,
       tableList: [],
       submitting: false,
       isEdit: false,
@@ -90,6 +104,10 @@ export default {
       },
       rules: {
         editionNum: [{ required: true, message: '请输入版本号', trigger: 'blur' }]
+      },
+      commitDialogData: {
+        visiable: false, // 钉钉Dialog
+        paramData: null
       }
     }
   },
@@ -141,10 +159,54 @@ export default {
         title: `指导书列表-${row.productName}-${row.editionNum}(版本)`,
         content: 'instructList',
         editData: {
+          tabName: `instructList${row.pkProduct}`,
           pkProduct: row.pkProduct,
           pkSopEdition: row.pkSopEdition,
           editionState: row.editionState // 状态，只有自由态才可新增编辑
         }
+      })
+    },
+    // 打开钉钉
+    openDing(row) {
+      this.commitDialogData.visiable = true
+      this.pkSopEdition = row.pkSopEdition
+    },
+    closeCommitDialog() {
+      this.commitDialogData.visiable = false
+    },
+    // 钉钉通知
+    dingSubmit(sendMsgParam) {
+      const jsons = {
+        pkSopEdition: this.pkSopEdition,
+        editionState: 1
+      }
+      // 调用钉钉接口
+      sendDingMsgByPsndoc(sendMsgParam).then((response) => {
+        // 钉钉接口的毁掉
+        if (response && response.data.success) {
+          // 调用接口后处理
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          })
+          saveSopEdition(jsons).then((res) => {
+            this.getList()
+          })
+        } else {
+          this.$message.error('调用钉钉接口失败')
+        }
+      })
+    },
+    // 设置为默认
+    setDefault(row) {
+      console.log(row)
+      const data = {
+        pkProduct: this.editData,
+        pkSopEdition: row.pkSopEdition,
+        isDefault: row.isDefault === '0' ? '1' : '0'
+      }
+      defaultSopEdition(data).then((res) => {
+        this.getList()
       })
     },
     submitForm(formName) {

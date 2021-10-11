@@ -1,9 +1,21 @@
+<!--
+ * @page: 页面-
+ * @Author: Dragon
+ * @Date: 2021-09-30 15:48:57
+ * @LastEditors: Dragon
+ * @LastEditTime: 2021-09-30 17:27:55
+-->
 <template>
-  <el-tabs :value="tabName" class="main-tabs" type="border-card" @tab-click="clickTab" @tab-remove="removeTab">
-    <el-tab-pane v-for="(item, index) in tabList" :key="index" :label="item.title" :name="item.name" :closable="!!index" class="main-tab-pane">
-      <slot :name="item.name"/>
-    </el-tab-pane>
-  </el-tabs>
+  <div class="wrap">
+    <el-tabs :value="tabName" class="main-tabs" type="border-card" @tab-click="clickTab" @tab-remove="removeTab">
+      <el-tab-pane v-for="(item, index) in tabList" :key="index" :label="item.title" :name="item.name" :closable="!!index" class="main-tab-pane">
+        <slot :name="item.name"/>
+      </el-tab-pane>
+    </el-tabs>
+    <div class="close" type="primary">
+      <el-button type="primary" plain size="small" @click="closeAll">全部关闭</el-button>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -79,7 +91,32 @@ export default {
     clickTab(item) {
       // 点击切换tabs 触发切换tabs将name传给父组件
       this.$emit('cutTabs', item.name)
+    },
+    closeAll() {
+      this.$emit('closeAllTab')
     }
   }
 }
 </script>
+<style>
+.wrap .el-tabs__header{
+  padding-right: 100px;
+}
+</style>
+<style lang="scss" scoped>
+.wrap{
+  position: relative;
+}
+.close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+  cursor: pointer;
+  height: 40px;
+  line-height: 40px;
+  color: #909399;
+  padding: 0 10px;
+  font-size: 14px;
+}
+</style>

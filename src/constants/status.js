@@ -1,7 +1,7 @@
 /*
  * @Author: 状态常量
  * @Date: 2021-09-13 10:45:22
- * @LastEditTime: 2021-09-21 23:53:31
+ * @LastEditTime: 2021-10-11 13:46:04
  * @LastEditors: Dragon
  * @Description: In User Settings Edit
  * @FilePath: /bom-admin/src/constants/status.js
@@ -130,3 +130,31 @@ const SOURCE_COMMON_OBJ = {
 }
 
 export { SOURCE_COMMON_LIST, SOURCE_COMMON_OBJ }
+
+// 版本状态
+const VERSION_STATUS_0 = 0 // 自由态
+const VERSION_STATUS_1 = 1 // 审核中
+const VERSION_STATUS_2 = 2 // 审核完成
+
+const VERSION_STATUS_OBJ = {
+  [VERSION_STATUS_0]: '自由态',
+  [VERSION_STATUS_1]: '审核中',
+  [VERSION_STATUS_2]: '审核完成'
+}
+
+export { VERSION_STATUS_OBJ }
+
+// 焊接工艺
+const SEAL_TECHNICS_0 = '0' // 无铅
+const SEAL_TECHNICS_1 = '1' // 有铅
+const SEAL_TECHNICS_2 = '2' // RoSH
+const SEAL_TECHNICS_3 = '3' // 无
+
+const SEAL_TECHNICS_OBJ = {
+  [SEAL_TECHNICS_0]: '无铅',
+  [SEAL_TECHNICS_1]: '有铅',
+  [SEAL_TECHNICS_2]: 'RoSH',
+  [SEAL_TECHNICS_3]: '无'
+}
+
+export { SEAL_TECHNICS_OBJ }

@@ -3,10 +3,10 @@
  * @Author: Dragon
  * @Date: 2021-09-17 15:19:04
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-22 16:09:58
+ * @LastEditTime: 2021-09-30 17:30:50
 -->
 <template>
-  <my-tabs ref="tab" :tab-list="tabList" :tab-name="tabName" @cutTabs="myTabsSwitch">
+  <my-tabs ref="tab" :tab-list="tabList" :tab-name="tabName" @closeAllTab="myTabCloseAll" @cutTabs="myTabsSwitch">
     <component
       v-for="item in tabList"
       :is="item.content"
@@ -39,6 +39,13 @@ export default {
     return {
       tabName: 'List', // 当前显示的tab
       tabList: [
+        {
+          title: '产品工艺审核列表', // tab的标题
+          name: 'List', // tab的身份标识必须唯一
+          content: 'List' // tab对应的组件
+        }
+      ],
+      initList: [
         {
           title: '产品工艺审核列表', // tab的标题
           name: 'List', // tab的身份标识必须唯一

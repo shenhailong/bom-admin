@@ -7,8 +7,8 @@
             <el-select
               v-model="searchForm.technicsState"
               placeholder="请选择审核状态"
+              @change="getTableList"
             >
-              <el-option label="全部" value="" />
               <el-option
                 v-for="item in children"
                 :key="item.id"
@@ -22,6 +22,7 @@
               v-model="searchForm.productCode"
               clearable
               placeholder="请输入产品编号"
+              @change="getTableList"
             />
           </el-form-item>
 
@@ -30,10 +31,16 @@
               v-model="searchForm.name"
               clearable
               placeholder="请输入客户编号"
+              @change="getTableList"
             />
           </el-form-item>
           <el-form-item label="业务经理">
-            <el-select v-model="searchForm.pkPsndocShow" placeholder="请选择业务经理" style="width:100%" clearable >
+            <el-select
+              v-model="searchForm.pkPsndocShow"
+              placeholder="请选择业务经理"
+              style="width:100%"
+              clearable
+              @change="getTableList" >
               <el-option
                 v-for="item in managerList"
                 :key="item.value"
@@ -42,7 +49,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="getTableList">查询</el-button>
+            <!-- <el-button type="primary" @click="getTableList">查询</el-button> -->
             <el-button type="danger" @click="resetList">重置</el-button>
           </el-form-item>
         </el-col>
@@ -208,20 +215,12 @@ export default {
       ],
       children: [
         {
-          value: null,
-          label: '全部显示'
+          value: '21',
+          label: '工艺审核中'
         },
         {
-          value: '0',
-          label: '自由态'
-        },
-        {
-          value: '2',
-          label: '已任领'
-        },
-        {
-          value: '3',
-          label: '采购报价完成'
+          value: '22',
+          label: '工艺审核完成'
         }
       ]
     }

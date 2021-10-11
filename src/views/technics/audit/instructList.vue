@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2021-09-18 20:56:05
  * @LastEditors: Dragon
- * @LastEditTime: 2021-10-08 17:34:02
+ * @LastEditTime: 2021-10-11 13:30:14
 -->
 <template>
   <div class="panel-page">
@@ -28,7 +28,7 @@
             :src="scope.row.sopImgUrl"
             alt=""
             style="width: 100%; height: 100px"
-            @click="lookit(scope.row.sopImgUrl)">
+            @click="showImg(scope.row.sopImgUrl)">
         </template>
       </el-table-column>
       <el-table-column prop="creatorShow" label="工艺人" width="150"/>
@@ -41,6 +41,9 @@
       </el-table-column>
     </el-table>
     <InstructionDetail v-if="detail.pkSopParameter !== undefined" :detail="detail" :visible.sync="visible"/>
+    <el-dialog :visible.sync="dialogVisible">
+      <img :src="dialogImageUrl" width="100%" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -72,7 +75,9 @@ export default {
       visible: false,
       detail: {
         billOfMaterialCraftPos: []
-      }
+      },
+      dialogVisible: false,
+      dialogImageUrl: '' // 预览图片地址
     }
   },
   mounted() {
@@ -81,7 +86,6 @@ export default {
   methods: {
     // 查询列表数据
     async getList() {
-      console.log(111)
       const params = { pkSopEdition: this.editData.pkSopEdition }
       const res = await selectSopParameterBySopEditionId(params)
       if (res.success) {
@@ -89,22 +93,20 @@ export default {
       }
     },
     // 新增作业指导书
-    addInstruct(row) {
+    addInstruct() {
       this.$emit('addTab', {
-        name: `instructEdit${row.pkProduct}`,
+        name: `instructEdit-new`,
         title: `新增作业指导书`,
         content: 'instructEdit',
         editData: {
-          tabName: `instructEdit${row.pkProduct}`,
+          tabName: this.editData.tabName,
           pkProduct: this.editData.pkProduct,
-          pkSopEdition: this.editData.pkSopEdition,
-          editionState: row.editionState // 状态，只有自由态才可新增编辑
+          pkSopEdition: this.editData.pkSopEdition
         }
       })
     },
     // 编辑作业指导书
     editInstruct(row) {
-      console.log(row)
       this.$emit('addTab', {
         name: `instructEdit${row.pkProduct}`,
         title: `编辑作业指导书-${row.pkSopParameter}`,
@@ -113,8 +115,7 @@ export default {
           row,
           tabName: `instructEdit${row.pkProduct}`,
           pkProduct: this.editData.pkProduct,
-          pkSopEdition: this.editData.pkSopEdition,
-          editionState: row.editionState // 状态，只有自由态才可新增编辑
+          pkSopEdition: this.editData.pkSopEdition
         }
       })
     },
@@ -122,6 +123,10 @@ export default {
     look(row) {
       this.detail = row
       this.visible = true
+    },
+    showImg(url) {
+      this.dialogVisible = true
+      this.dialogImageUrl = url
     },
     deleteInstruct(item) {
       this.$confirm('是否删除?', '提示', {

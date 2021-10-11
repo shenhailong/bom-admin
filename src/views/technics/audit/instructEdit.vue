@@ -270,13 +270,14 @@ export default {
       const res = await selectAllBillOfMaterialById(params)
       if (res.success) {
         this.materialList = res.object || []
-        if (this.editData.row) {
-          this.ruleForm = this.editData.row
+        const detail = this.editData.row
+        if (detail) {
+          this.ruleForm = detail
           this.isEdit = true
-          this.ruleForm.resultData = this.editData.row.billOfMaterialCraftPos
+          this.ruleForm.resultData = detail.billOfMaterialCraftPos || []
           const data = {
-            name: this.editData.row.sopImgUrl,
-            url: this.editData.row.sopImgUrl
+            name: detail.sopImgUrl,
+            url: detail.sopImgUrl
           }
           this.fileList.push(data)
         }

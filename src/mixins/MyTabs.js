@@ -3,7 +3,7 @@
  * @Author: Dragon
  * @Date: 2018-05-29 09:35:28
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-17 15:17:05
+ * @LastEditTime: 2021-10-09 13:27:45
  */
 // Vue对象 数据格式要求
 
@@ -11,6 +11,10 @@
 // ref 中  tab   MyTabs对象引用
 export default {
   methods: {
+    myTabCloseAll() {
+      this.tabList = JSON.parse(JSON.stringify(this.initList))
+      this.tabName = this.initList[0].name
+    },
     // 切换tab
     myTabsSwitch(name) {
       // 设置当前显示的tab
@@ -54,7 +58,12 @@ export default {
       // }
       // 重新加载组件数据
       if (reloadObj && reloadObj.name) {
+        console.log(22222)
+        console.log(reloadObj)
         var component = this.$refs[reloadObj.name] && this.$refs[reloadObj.name][0]
+        console.log(component)
+        console.log(22222)
+
         reloadObj.methods.forEach(item => {
           if (component) {
             if (typeof component[item] === 'function') {
