@@ -3,12 +3,12 @@
  * @Author: Dragon
  * @Date: 2021-09-30 15:48:57
  * @LastEditors: Dragon
- * @LastEditTime: 2021-09-30 17:27:55
+ * @LastEditTime: 2021-10-12 12:29:36
 -->
 <template>
   <div class="wrap">
     <el-tabs :value="tabName" class="main-tabs" type="border-card" @tab-click="clickTab" @tab-remove="removeTab">
-      <el-tab-pane v-for="(item, index) in tabList" :key="index" :label="item.title" :name="item.name" :closable="!!index" class="main-tab-pane">
+      <el-tab-pane v-for="(item, index) in tabList" :key="item.name" :label="item.title" :name="item.name" :closable="!!index" class="main-tab-pane">
         <slot :name="item.name"/>
       </el-tab-pane>
     </el-tabs>
